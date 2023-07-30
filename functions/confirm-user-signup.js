@@ -5,7 +5,7 @@ const chance = new Chance()
 const { USERS_TABLE } = process.env
 
 module.exports.handler = async (event) => {
-    if (event.triggerSource === 'PoolConfirmation_ConfirmSignUp') {
+    if (event.triggerSource === 'PostConfirmation_ConfirmSignUp') {
         const name = event.request.userAttributes['name']
         const suffix = chance.string({ length: 8, casing: 'upper', alpha: true, numeric: true })
         const screenName = `${name.replace(/[^a-zA-Z0-9]/g, "")}${suffix}`
