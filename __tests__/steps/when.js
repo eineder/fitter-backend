@@ -54,6 +54,12 @@ const a_user_signs_up = async (password, name, email) => {
     }).promise()
 
     console.log(`Confirmed sign up for user ${email}`)
+
+    return {
+        username,
+        name,
+        email
+    }
 }
 
 module.exports = {
