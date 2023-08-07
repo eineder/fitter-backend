@@ -3,11 +3,17 @@ const when = require('../../steps/when')
 const chance = require('chance').Chance()
 
 describe('When getImageUloadUrl runs', () => {
-    it('Returns a signed S3 URL', async () => {
+    it.each([
+        ['.png', 'image/png'],
+        ['.jpeg', 'image/jpeg'],
+        ['.png', null],
+        [null, 'image/png'],
+        [null, null]
+    ])('Returns a signed S3 URL for extension %s and content type %s', async (extension, contentType) => {
         const username = chance.guid()
-        const signedUrl = await when.we_invoke_getImageUploadUrl(username, '.png', 'image/png')
+        const signedUrl = await when.we_invoke_getImageUploadUrl(username, extension, contentType)
         const { BUCKET_NAME } = process.env
-        const regex = new RegExp(`https://${BUCKET_NAME}.s3-accelerate.amazonaws.com/${username}/.*.png?.*Content-Type=image%2Fpng.*`)
+        const regex = new RegExp(`https://${BUCKET_NAME}.s3-accelerate.amazonaws.com/${username}/.*${extension || ''}?.*Content-Type=${contentType ? contentType.replace('/', '%2F') : 'image%2Fjpeg'}.*`)
         expect(signedUrl).toMatch(regex)
     })
 })
