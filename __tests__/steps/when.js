@@ -112,10 +112,27 @@ const a_user_calls_editMyProfle = async (user, input) => {
 
 }
 
+const we_invoke_getImageUploadUrl = async (username, extension, contentType) => {
+    const handler = require('../../functions/get-upload-url').handler
+    const context = {}
+    const event = {
+        identity: {
+            username
+        },
+        arguments: {
+            extension,
+            contentType
+        }
+    }
+
+    return await handler(event, context)
+}
+
 module.exports = {
     we_invoke_confirmUserSignup,
     a_user_signs_up,
     we_invoke_an_appsync_template,
     a_user_calls_getMyProfle,
-    a_user_calls_editMyProfle
+    a_user_calls_editMyProfle,
+    we_invoke_getImageUploadUrl
 }
