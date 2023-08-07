@@ -1,5 +1,7 @@
 const chance = require('chance').Chance()
 const velocityUtil = require('amplify-appsync-simulator/lib/velocity/util')
+const cognitoUtil = require('../lib/cognitoUtil')
+
 
 const a_random_user = () => {
     const firstname = chance.first({ nationality: 'en' })
@@ -33,7 +35,20 @@ const an_appsync_context = (identity, args) => {
     }
 }
 
+const an_authenticated_user = async () => {
+    const { name, email, password } = a_random_user()
+    const { clientId, username } = await cognitoUtil.signupAndConfirmUser(name, email, password)
+    const { accessToken, idToken } = await cognitoUtil.signInUser(clientId, username, password)
+    return {
+        name,
+        username,
+        accessToken,
+        idToken
+    }
+}
+
 module.exports = {
     a_random_user,
-    an_appsync_context
+    an_appsync_context,
+    an_authenticated_user
 }
