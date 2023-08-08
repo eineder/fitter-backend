@@ -1,5 +1,5 @@
 const S3 = require('aws-sdk/clients/s3')
-const s3 = new S3({ useAccelerateEndpoint: true })
+const s3 = new S3({ useAccelerateEndpoint: true, region: 'eu-west-1' })
 const ulid = require('ulid')
 
 const { BUCKET_NAME } = process.env
