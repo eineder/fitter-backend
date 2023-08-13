@@ -25,6 +25,7 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   appSync:
     - ${file(serverless.appsync-api.yml)}
+
   manifest:
     postProcess: ./processManifest.js
     disablePostDeployGeneration: true
@@ -40,14 +41,14 @@ functions:
       - Effect: Allow
         Action: dynamodb:PutItem
         Resource: !GetAtt UsersTable.Arn
-  
+
   getImageUploadUrl:
     handler: functions/get-upload-url.handler
     environment:
       BUCKET_NAME: !Ref AssetsBucket
     iamRoleStatements:
       - Effect: Allow
-        Action: 
+        Action:
           - s3:PutObject
           - s3:PutObjectAcl
         Resource: !Sub ${AssetsBucket.Arn}/*
@@ -110,7 +111,7 @@ resources:
           - ALLOW_USER_PASSWORD_AUTH
           - ALLOW_REFRESH_TOKEN_AUTH
         PreventUserExistenceErrors: ENABLED
-    
+
     AssetsBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -125,6 +126,15 @@ resources:
                 - '*'
               AllowedHeaders:
                 - '*'
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: BucketOwnerPreferred
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+      
 
   Outputs:
     AwsRegion:
