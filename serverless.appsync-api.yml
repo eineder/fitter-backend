@@ -32,7 +32,7 @@ dataSources:
       tableName: !Ref UsersTable
   - type: AWS_LAMBDA
     name: getImageUploadUrlFunction
-    config: 
+    config:
       functionName: getImageUploadUrl
   - type: AWS_LAMBDA
     name: tweetFunction
