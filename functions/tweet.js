@@ -22,7 +22,7 @@ const tweet = async (event) => {
         retweets: 0
     }
 
-    DocumentClient.transactWrite({
+    await DocumentClient.transactWrite({
         TransactItems: [
             {
                 Put: {
@@ -41,12 +41,22 @@ const tweet = async (event) => {
                 }
             },
             {
-                Update
+                Update: {
+                    TableName: USERS_TABLE_NAME,
+                    Key: {
+                        id: username
+                    },
+                    UpdateExpression: 'ADD tweetsCount :one',
+                    ExpressionAttributeValues: {
+                        ':one': 1
+                    },
+                    ConditionExpression: 'attribute_exists(id)'
+                }
             }
         ]
-    })
+    }).promise()
+
+    return newTweet
 }
 
-module.exports = {
-    tweet
-}
+module.exports.handler = tweet
