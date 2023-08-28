@@ -128,6 +128,21 @@ const we_invoke_getImageUploadUrl = async (username, extension, contentType) => 
     return await handler(event, context)
 }
 
+const we_invoke_tweet = async (username, text) => {
+    const handler = require('../../functions/tweet').handler
+    const context = {}
+    const event = {
+        identity: {
+            username
+        },
+        arguments: {
+            text
+        }
+    }
+
+    return await handler(event, context)
+}
+
 const a_user_calls_getImageUploadUrl = async (user, extension, contentType) => {
     const query = `query getImageUploadUrl($extension: String, $contentType: String) {
   getImageUploadUrl(extension: $extension, contentType: $contentType) 
@@ -150,5 +165,6 @@ module.exports = {
     a_user_calls_getMyProfle,
     a_user_calls_editMyProfle,
     we_invoke_getImageUploadUrl,
-    a_user_calls_getImageUploadUrl
+    a_user_calls_getImageUploadUrl,
+    we_invoke_tweet
 }
