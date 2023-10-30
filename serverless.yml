@@ -14,7 +14,8 @@ provider:
   environment:
     STAGE: ${self:custom.stage}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
-
+  stage: dev
+ 
 package:
   exclude:
     - package-lock.json
