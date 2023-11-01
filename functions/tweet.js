@@ -1,6 +1,14 @@
 const ulid = require('ulid')
-const DynamoDb = require('aws-sdk/clients/dynamodb')
-const DocumentClient = new DynamoDb.DocumentClient()
+
+const {
+    DynamoDBDocument
+} = require("@aws-sdk/lib-dynamodb");
+
+const {
+    DynamoDB: DynamoDb
+} = require("@aws-sdk/client-dynamodb");
+
+const DocumentClient = DynamoDBDocument.from(new DynamoDb())
 const { TweetType } = require('../lib/constants')
 
 const { USERS_TABLE, TWEETS_TABLE, TIMELINES_TABLE } = process.env
@@ -54,7 +62,7 @@ const tweet = async (event) => {
                 }
             }
         ]
-    }).promise()
+    })
 
     return newTweet
 }
