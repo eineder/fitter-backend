@@ -1,8 +1,10 @@
 require('dotenv').config()
-const AWS = require('aws-sdk')
+const {
+    CognitoIdentityProvider
+} = require("@aws-sdk/client-cognito-identity-provider");
 
 const signupAndConfirmUser = async (name, email, password) => {
-    const cognito = new AWS.CognitoIdentityServiceProvider()
+    const cognito = new CognitoIdentityProvider()
     const userPoolId = process.env.COGNITO_USER_POOL_ID
     const clientId = process.env.WEB_COGNITO_USER_POOL_CLIENT_ID
 
@@ -13,7 +15,7 @@ const signupAndConfirmUser = async (name, email, password) => {
         UserAttributes: [
             { Name: 'name', Value: name }
         ]
-    }).promise()
+    })
 
     const username = signUpResponse.UserSub
     console.log(`User ${email} has signed up and has username ${username}`)
@@ -23,14 +25,14 @@ const signupAndConfirmUser = async (name, email, password) => {
     await cognito.adminConfirmSignUp({
         Username: username,
         UserPoolId: userPoolId
-    }).promise()
+    })
 
     console.log(`Confirmed sign up for user ${username}`)
     return { clientId, username }
 }
 
 const signInUser = async (clientId, username, password) => {
-    const cognito = new AWS.CognitoIdentityServiceProvider()
+    const cognito = new CognitoIdentityProvider()
     const authToken = await cognito.initiateAuth({
         ClientId: clientId,
         AuthFlow: 'USER_PASSWORD_AUTH',
@@ -38,7 +40,7 @@ const signInUser = async (clientId, username, password) => {
             USERNAME: username,
             PASSWORD: password
         }
-    }).promise()
+    })
 
     console.log(`[${username}] - signed in`)
 
