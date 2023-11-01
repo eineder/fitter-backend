@@ -1,9 +1,9 @@
-import { util } from '@aws-appsync/utils';
+import { } from '@aws-appsync/utils/index.js';
 
 export function request(ctx) {
     return {
         operation: "GetItem",
-        key: util.dynamodb.toMapValues({ id: ctx.identity.username })
+        key: Util.dynamodb.toMapValues({ id: ctx.identity.username })
     };
 }
 
