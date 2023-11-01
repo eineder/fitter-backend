@@ -1,8 +1,12 @@
-const chance = require('chance').Chance()
-const path = require('path')
-const given = require('../../steps/given')
-const when = require('../../steps/when')
+import c from 'chance';
+import path from 'path';
+import given from '../../steps/given';
+import when from '../../steps/when';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const chance = c.Chance();
 
 describe('Tweet.profile.response template', () => {
     it("Should set the __typename to 'MyProfile' for current user", () => {

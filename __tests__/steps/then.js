@@ -1,6 +1,6 @@
-const AWS = require('aws-sdk')
-const http = require('axios').default
-const fs = require('fs')
+import AWS from 'aws-sdk';
+import http from 'axios';
+import fs from 'fs';
 
 const user_exists_in_UsersTable = async (id) => {
     const DynamoDB = new AWS.DynamoDB.DocumentClient()
@@ -97,11 +97,11 @@ const user_can_download_from = async (url) => {
     return response.data
 }
 
-module.exports = {
+export default {
     user_exists_in_UsersTable,
     user_can_upload_image_to_url,
     user_can_download_from,
     tweet_exists_in_tweets_table,
     tweet_exists_in_timelines_table,
     tweetsCount_is_updated_in_users_table
-}
+};

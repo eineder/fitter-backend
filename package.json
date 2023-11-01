@@ -4,10 +4,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "sls": "sls",
     "exportEnv": "sls export-env && sls manifest",
-    "test": "jest --verbose ./__tests__/test_cases/unit",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./__tests__/test_cases/unit",
     "integration-test": "jest --verbose ./__tests__/test_cases/integration",
     "e2e-test": "jest --verbose ./__tests__/test_cases/e2e"
   },

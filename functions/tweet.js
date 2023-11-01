@@ -1,15 +1,9 @@
-const ulid = require('ulid')
-
-const {
-    DynamoDBDocument
-} = require("@aws-sdk/lib-dynamodb");
-
-const {
-    DynamoDB: DynamoDb
-} = require("@aws-sdk/client-dynamodb");
+import ulid from 'ulid';
+import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
+import { DynamoDB as DynamoDb } from '@aws-sdk/client-dynamodb';
 
 const DocumentClient = DynamoDBDocument.from(new DynamoDb())
-const { TweetType } = require('../lib/constants')
+import constants from '../lib/constants';
 
 const { USERS_TABLE, TWEETS_TABLE, TIMELINES_TABLE } = process.env
 
@@ -20,7 +14,7 @@ const tweet = async (event) => {
     const timestamp = new Date().toJSON()
 
     const newTweet = {
-        __typename: TweetType.TWEET,
+        __typename: constants.TweetType.TWEET,
         id,
         text,
         creator: username,
@@ -67,4 +61,4 @@ const tweet = async (event) => {
     return newTweet
 }
 
-module.exports.handler = tweet
+export const handler = tweet;

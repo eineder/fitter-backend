@@ -1,9 +1,16 @@
-require('dotenv').config()
-const given = require('../../steps/given')
-const when = require('../../steps/when')
-const then = require('../../steps/then')
-const chance = require('chance').Chance()
-const path = require('path')
+import dotenv from 'dotenv';
+import given from '../../steps/given';
+import when from '../../steps/when';
+import then from '../../steps/then';
+import c from 'chance';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const chance = c.Chance()
+dotenv.config();
 
 describe('Given an authenticated user', () => {
     let user, profile

@@ -1,5 +1,5 @@
-const http = require('axios').default
-const _ = require('lodash')
+import http from 'axios';
+import _ from 'lodash';
 
 
 const throwOnError = ({ query, variables, errors }) => {
@@ -15,7 +15,7 @@ const throwOnError = ({ query, variables, errors }) => {
     }
 }
 
-module.exports = async (url, query, variables = {}, authToken) => {
+export default async (url, query, variables = {}, authToken) => {
     const headers = {}
     if (authToken) {
         headers.Authorization = authToken
@@ -38,5 +38,5 @@ module.exports = async (url, query, variables = {}, authToken) => {
     }
 
 
-}
+};
 

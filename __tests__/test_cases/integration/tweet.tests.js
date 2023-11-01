@@ -1,7 +1,9 @@
-const given = require('../../steps/given')
-const when = require('../../steps/when')
-const then = require('../../steps/then')
-const chance = require('chance').Chance()
+import given from '../../steps/given';
+import when from '../../steps/when';
+import then from '../../steps/then';
+import c from 'chance';
+
+const chance = c.Chance();
 
 describe('Given an authenticated user', () => {
 

@@ -1,10 +1,10 @@
-const DynamoDB = require('aws-sdk/clients/dynamodb')
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 const DocumentClient = new DynamoDB.DocumentClient()
-const Chance = require('chance')
+import Chance from 'chance';
 const chance = new Chance()
 const { USERS_TABLE } = process.env
 
-module.exports.handler = async (event) => {
+export const handler = async (event) => {
     if (event.triggerSource === 'PostConfirmation_ConfirmSignUp') {
         const name = event.request.userAttributes['name']
         const suffix = chance.string({ length: 8, casing: 'upper', alpha: true, numeric: true })
@@ -28,4 +28,4 @@ module.exports.handler = async (event) => {
     } else {
         return event
     }
-}
+};

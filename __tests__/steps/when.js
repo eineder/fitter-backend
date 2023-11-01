@@ -1,12 +1,17 @@
-require('dotenv').config()
-const fs = require('fs')
-const velocityMapper = require('amplify-appsync-simulator/lib/velocity/value-mapper/mapper')
-const velocityTemplate = require('amplify-velocity-template')
-const cognitoUtil = require('../lib/cognitoUtil')
-const GraphQL = require('../lib/graphql')
+import fs from 'fs';
+import velocityMapper from 'amplify-appsync-simulator/lib/velocity/value-mapper/mapper';
+import velocityTemplate from 'amplify-velocity-template';
+import cognitoUtil from '../lib/cognitoUtil';
+import GraphQL from '../lib/graphql';
+import dotenv from 'dotenv';
+import { handler as signupHandler } from '../../functions/confirm-user-signup';
+import { handler as getUploadUrlHandler } from '../../functions/get-upload-url';
+import { handler as tweetHandler } from '../../functions/tweet';
+
+
+dotenv.config();
 
 const we_invoke_confirmUserSignup = async (username, name, email) => {
-    const handler = require('../../functions/confirm-user-signup').handler
     const context = {}
     const event = {
         "version": "1",
@@ -27,7 +32,7 @@ const we_invoke_confirmUserSignup = async (username, name, email) => {
         "response": {}
     }
 
-    await handler(event, context)
+    await signupHandler(event, context)
 }
 
 /**
@@ -113,7 +118,6 @@ const a_user_calls_editMyProfle = async (user, input) => {
 }
 
 const we_invoke_getImageUploadUrl = async (username, extension, contentType) => {
-    const handler = require('../../functions/get-upload-url').handler
     const context = {}
     const event = {
         identity: {
@@ -125,11 +129,10 @@ const we_invoke_getImageUploadUrl = async (username, extension, contentType) => 
         }
     }
 
-    return await handler(event, context)
+    return await getUploadUrlHandler(event, context)
 }
 
 const we_invoke_tweet = async (username, text) => {
-    const handler = require('../../functions/tweet').handler
     const context = {}
     const event = {
         identity: {
@@ -140,7 +143,7 @@ const we_invoke_tweet = async (username, text) => {
         }
     }
 
-    return await handler(event, context)
+    return await tweetHandler(event, context)
 }
 
 const a_user_calls_getImageUploadUrl = async (user, extension, contentType) => {
@@ -180,7 +183,7 @@ const a_user_calls_tweet = async (user, text) => {
 }
 
 
-module.exports = {
+export default {
     we_invoke_confirmUserSignup,
     a_user_signs_up,
     we_invoke_an_appsync_template,
@@ -190,4 +193,4 @@ module.exports = {
     a_user_calls_getImageUploadUrl,
     we_invoke_tweet,
     a_user_calls_tweet
-}
+};

@@ -1,6 +1,9 @@
-require('dotenv').config()
-const when = require('../../steps/when')
-const chance = require('chance').Chance()
+import dotenv from 'dotenv';
+import c from 'chance';
+import when from '../../steps/when';
+
+const chance = c.Chance()
+dotenv.config();
 
 describe('When getImageUloadUrl runs', () => {
     it.each([

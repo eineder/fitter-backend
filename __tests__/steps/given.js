@@ -1,7 +1,8 @@
-const chance = require('chance').Chance()
-const velocityUtil = require('amplify-appsync-simulator/lib/velocity/util')
-const cognitoUtil = require('../lib/cognitoUtil')
+import c from 'chance';
+// import velocityUtil from 'amplify-appsync-simulator/lib/velocity/util';
+import cognitoUtil from '../lib/cognitoUtil';
 
+const chance = c.Chance();
 
 const a_random_user = () => {
     const firstname = chance.first({ nationality: 'en' })
@@ -48,8 +49,8 @@ const an_authenticated_user = async () => {
     }
 }
 
-module.exports = {
+export default {
     a_random_user,
     an_appsync_context,
     an_authenticated_user
-}
+};

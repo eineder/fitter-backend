@@ -1,8 +1,11 @@
-require('dotenv').config()
-const given = require('../../steps/given')
-const then = require('../../steps/then')
-const when = require('../../steps/when')
-const chance = require('chance').Chance()
+import dotenv from 'dotenv';
+import given from '../../steps/given';
+import then from '../../steps/then';
+import when from '../../steps/when';
+import c from 'chance';
+
+const chance = c.Chance()
+dotenv.config();
 
 describe('Given an authenticated user', () => {
     let user

@@ -9,11 +9,10 @@
             "request": "launch",
             "name": "Jest: current file",
             //"env": { "NODE_ENV": "test" },
-            "program": "${workspaceFolder}/node_modules/.bin/jest",
+            "program": "--experimental-vm-modules ${workspaceFolder}/node_modules/jest/bin/jest.js",
             "args": [
                 "${fileBasenameNoExtension}",
-                "--config",
-                "jest.config.js"
+                "--config"
             ],
             "console": "integratedTerminal",
             "disableOptimisticBPs": true,

@@ -1,10 +1,10 @@
-const _ = require('lodash')
-const dotenv = require('dotenv')
-const fs = require('fs')
-const path = require('path')
-const { promisify } = require('util')
+import _ from 'lodash';
+import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { promisify } from 'util';
 
-module.exports = async function processManifest(manifestData) {
+export default async function processManifest(manifestData) {
     const stageName = Object.keys(manifestData)
     const { outputs } = manifestData[stageName]
 
@@ -21,7 +21,7 @@ module.exports = async function processManifest(manifestData) {
     await updateDotEnv(dotEnvFile, {
         API_URL: getOutputValue('AppsyncmasterclassGraphQlApiUrl'),
     })
-}
+};
 
 /* Utils, typically this would be a package includes from NPM */
 async function updateDotEnv(filePath, env) {

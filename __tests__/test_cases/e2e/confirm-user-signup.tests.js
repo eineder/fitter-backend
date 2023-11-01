@@ -1,6 +1,6 @@
-const given = require('../../steps/given')
-const when = require('../../steps/when')
-const then = require('../../steps/then')
+import given from '../../steps/given';
+import when from '../../steps/when';
+import then from '../../steps/then';
 
 
 describe('When a user signs up', () => {

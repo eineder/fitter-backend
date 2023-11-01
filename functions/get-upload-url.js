@@ -1,10 +1,10 @@
-const S3 = require('aws-sdk/clients/s3')
+import S3 from 'aws-sdk/clients/s3';
 const s3 = new S3({ useAccelerateEndpoint: true })
-const ulid = require('ulid')
+import ulid from 'ulid';
 
 const { BUCKET_NAME } = process.env
 
-module.exports.handler = async (event) => {
+export const handler = async (event) => {
     const id = ulid.ulid()
     let key = `${event.identity.username}/${id}`
 
@@ -30,4 +30,4 @@ module.exports.handler = async (event) => {
     }
     const signedUrl = s3.getSignedUrl('putObject', params)
     return signedUrl
-}
+};

@@ -1,7 +1,7 @@
-require('dotenv').config()
-const {
-    CognitoIdentityProvider
-} = require("@aws-sdk/client-cognito-identity-provider");
+import dotenv from 'dotenv';
+import { CognitoIdentityProvider } from '@aws-sdk/client-cognito-identity-provider';
+
+dotenv.config();
 
 const signupAndConfirmUser = async (name, email, password) => {
     const cognito = new CognitoIdentityProvider()
@@ -51,7 +51,7 @@ const signInUser = async (clientId, username, password) => {
 }
 
 
-module.exports = {
+export default {
     signupAndConfirmUser,
     signInUser
-}
+};
