@@ -11,8 +11,7 @@ resolvers:
   Query.getMyProfile:
     dataSource: usersTable
     kind: UNIT
-    request: 'mapping-templates/Query.getMyProfile.request.vtl'
-    response: 'mapping-templates/Query.getMyProfile.response.vtl'
+    code: 'resolvers/getMyProfile.js'
 
   Query.getImageUploadUrl:
     dataSource: getImageUploadUrlFunction
