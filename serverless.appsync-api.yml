@@ -1,66 +1,88 @@
 name: appsyncmasterclass
 schema: schema.api.graphql
-authenticationType: AMAZON_COGNITO_USER_POOLS
-userPoolConfig:
-  awsRegion: eu-west-1
-  defaultAction: ALLOW
-  userPoolId: !Ref CognitoUserPool
-mappingTemplatesLocation: mapping-templates
-mappingTemplates:
-  - type: Query
-    field: getMyProfile
+authentication:
+  type: AMAZON_COGNITO_USER_POOLS
+  config:
+    awsRegion: eu-west-1
+    defaultAction: ALLOW
+    userPoolId: !Ref CognitoUserPool
+resolvers:
+  
+  Query.getMyProfile:
     dataSource: usersTable
-  - type: Query
-    field: getImageUploadUrl
+    kind: UNIT
+    request: 'mapping-templates/Query.getMyProfile.request.vtl'
+    response: 'mapping-templates/Query.getMyProfile.response.vtl'
+
+  Query.getImageUploadUrl:
     dataSource: getImageUploadUrlFunction
-    request: false
-    response: false
-  - type: Query
-    field: getTweets
+    kind: UNIT
+  
+  Query.getTweets:
     dataSource: tweetsTable
-  - type: Query
-    field: getMyTimeline
+    kind: UNIT
+    request: 'mapping-templates/Query.getTweets.request.vtl'
+    response: 'mapping-templates/Query.getTweets.response.vtl'
+  
+  Query.getMyTimeline:
     dataSource: timelinesTable
+    kind: UNIT
+    request: 'mapping-templates/Query.getMyTimeline.request.vtl'
+    response: 'mapping-templates/Query.getMyTimeline.response.vtl'
 
-  - type: Mutation
-    field: editMyProfile
+
+  Mutation.editMyProfile:
     dataSource: usersTable
-  - type: Mutation
-    field: tweet
+    kind: UNIT
+    request: 'mapping-templates/Mutation.editMyProfile.request.vtl'
+    response: 'mapping-templates/Mutation.editMyProfile.response.vtl'
+  
+  Mutation.tweet:
     dataSource: tweetFunction
-    request: false
-    response: false
+    kind: UNIT
 
-  # nested fields:
-  - type: Tweet
-    field: profile
+
+  ## nested fields:
+  Tweet.profile:
     dataSource: usersTable
-  - type: TimelinePage
-    field: tweets
+    kind: UNIT
+    request: 'mapping-templates/Tweet.profile.request.vtl'
+    response: 'mapping-templates/Tweet.profile.response.vtl'
+  
+  
+  TimelinePage.tweets:
     dataSource: tweetsTable
-
-
+    kind: UNIT
+    request: 'mapping-templates/TimelinePage.tweets.request.vtl'
+    response: 'mapping-templates/TimelinePage.tweets.response.vtl'
+  
 dataSources:
-  - type: NONE
-    name: none
-  - type: AMAZON_DYNAMODB
-    name: usersTable
+
+  none:
+    type: NONE
+
+  usersTable:
+    type: AMAZON_DYNAMODB
     config:
       tableName: !Ref UsersTable
-  - type: AMAZON_DYNAMODB
-    name: tweetsTable
+
+  tweetsTable:
+    type: AMAZON_DYNAMODB
     config:
       tableName: !Ref TweetsTable
-  - type: AMAZON_DYNAMODB
-    name: timelinesTable
+
+  timelinesTable:
+    type: AMAZON_DYNAMODB
     config:
       tableName: !Ref TimelinesTable
-  - type: AWS_LAMBDA
-    name: getImageUploadUrlFunction
+
+  getImageUploadUrlFunction:
+    type: AWS_LAMBDA
     config:
       functionName: getImageUploadUrl
-  - type: AWS_LAMBDA
-    name: tweetFunction
+
+  tweetFunction:
+    type: AWS_LAMBDA
     config: 
       functionName: tweet
 

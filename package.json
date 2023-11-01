@@ -22,8 +22,8 @@
     "dotenv": "^16.3.1",
     "jest": "^29.6.2",
     "lodash": "^4.17.21",
-    "serverless": "^2.72.4",
-    "serverless-appsync-plugin": "^1.4.0",
+    "serverless": "^3.36.0",
+    "serverless-appsync-plugin": "^2.4.0",
     "serverless-export-env": "1.4.1",
     "serverless-iam-roles-per-function": "^3.2.0",
     "serverless-manifest-plugin": "^1.0.9"
