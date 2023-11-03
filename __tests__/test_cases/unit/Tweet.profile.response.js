@@ -8,7 +8,7 @@ describe('Tweet.profile.response template', () => {
     it("Should set the __typename to 'MyProfile' for current user", () => {
         const templatePath = path.resolve(__dirname, '../../../mapping-templates/Tweet.profile.response.vtl')
         const username = chance.guid()
-        const context = given.an_appsync_context({ username }, {}, { id: username })
+        const context = given.an_appsync_velocity_context({ username }, {}, { id: username })
         const result = when.we_invoke_an_appsync_template(templatePath, context)
 
         expect(result).toEqual({
@@ -21,7 +21,7 @@ describe('Tweet.profile.response template', () => {
         const templatePath = path.resolve(__dirname, '../../../mapping-templates/Tweet.profile.response.vtl')
         const username = chance.guid()
         const otherId = chance.guid()
-        const context = given.an_appsync_context({ username }, {}, { id: otherId })
+        const context = given.an_appsync_velocity_context({ username }, {}, { id: otherId })
         const result = when.we_invoke_an_appsync_template(templatePath, context)
 
         expect(result).toEqual({

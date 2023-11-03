@@ -18,7 +18,7 @@ const a_random_user = () => {
     }
 }
 
-const an_appsync_context = (identity, args, result) => {
+const an_appsync_velocity_context = (identity, args, result) => {
     const util = velocityUtil.create([], new Date(), Object())
 
     const context = {
@@ -36,6 +36,26 @@ const an_appsync_context = (identity, args, result) => {
     }
 }
 
+function an_appsync_js_context_json(username) {
+    return `
+        {
+            "arguments": {},
+            "source": {},
+            "result": {},
+            "identity": {
+                "sub": "uuid",
+                "issuer": " https://cognito-idp.{region}.amazonaws.com/{userPoolId}",
+                "username": "${username}",
+                "claims": {},
+                "sourceIp": [
+                    "x.x.x.x"
+                ],
+                "defaultAuthStrategy": "ALLOW"
+            }
+        }`
+}
+
+
 const an_authenticated_user = async () => {
     const { name, email, password } = a_random_user()
     const { clientId, username } = await cognitoUtil.signupAndConfirmUser(name, email, password)
@@ -50,6 +70,7 @@ const an_authenticated_user = async () => {
 
 module.exports = {
     a_random_user,
-    an_appsync_context,
+    an_appsync_velocity_context,
+    an_appsync_js_context_json,
     an_authenticated_user
 }

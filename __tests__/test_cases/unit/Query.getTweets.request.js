@@ -8,7 +8,7 @@ describe('Query.getTweets.request template', () => {
     it("Should throw if limit > 25", () => {
         const templatePath = path.resolve(__dirname, '../../../mapping-templates/Query.getTweets.request.vtl')
         const username = chance.guid()
-        const context = given.an_appsync_context({ username }, {
+        const context = given.an_appsync_velocity_context({ username }, {
             userId: username, limit: 26,
             nextToken: null
         })
