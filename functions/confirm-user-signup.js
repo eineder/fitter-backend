@@ -1,5 +1,7 @@
-const DynamoDB = require("@aws-sdk/client-dynamodb");
-const DocumentClient = new DynamoDB.DocumentClient();
+const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
+const { DynamoDB: DynamoDb } = require("@aws-sdk/client-dynamodb");
+const DocumentClient = DynamoDBDocument.from(new DynamoDb());
+
 const Chance = require("chance");
 const chance = new Chance();
 const { USERS_TABLE } = process.env;
