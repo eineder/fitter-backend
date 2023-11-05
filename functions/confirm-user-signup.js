@@ -30,7 +30,7 @@ module.exports.handler = async (event) => {
       TableName: USERS_TABLE,
       Item: user,
       ConditionExpression: "attribute_not_exists(id)",
-    }).promise();
+    });
     return event;
   } else {
     return event;
