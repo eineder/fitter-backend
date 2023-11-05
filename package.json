@@ -7,9 +7,10 @@
   "scripts": {
     "start": "sls deploy && npm run exportEnv",
     "exportEnv": "sls export-env --overwrite --all && sls manifest",
-    "test": "jest --verbose ./__tests__/test_cases/unit",
-    "integration-test": "jest --verbose ./__tests__/test_cases/integration",
-    "e2e-test": "jest --verbose ./__tests__/test_cases/e2e"
+    "tu": "jest --verbose ./__tests__/test_cases/unit",
+    "ti": "jest --verbose ./__tests__/test_cases/integration",
+    "te": "jest --verbose ./__tests__/test_cases/e2e",
+    "ta": "jest --verbose ./__tests__/test_cases"
   },
   "author": "",
   "license": "ISC",
