@@ -1,6 +1,7 @@
 require("dotenv").config();
 const when = require("../../steps/when");
 const chance = require("chance").Chance();
+const getUploadUrlPattern = require("../../lib/urlUtil");
 
 describe("When getImageUploadUrl runs", () => {
   it.each([
@@ -19,11 +20,7 @@ describe("When getImageUploadUrl runs", () => {
         contentType
       );
       const { BUCKET_NAME } = process.env;
-      const regex = new RegExp(
-        `https://${BUCKET_NAME}.s3-accelerate.amazonaws.com/${username}/.*${
-          extension || ""
-        }.*`
-      );
+      const regex = getUploadUrlPattern(BUCKET_NAME, username, extension);
       expect(signedUrl).toMatch(regex);
     }
   );
