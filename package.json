@@ -15,8 +15,12 @@
   "license": "ISC",
   "devDependencies": {
     "@aws-appsync/utils": "^1.5.0",
+    "@aws-sdk/client-appsync": "^3.441.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.438.0",
     "@aws-sdk/client-dynamodb": "^3.438.0",
+    "@aws-sdk/client-s3": "^3.441.0",
+    "@aws-sdk/s3-request-presigner": "^3.441.0",
+    "@smithy/smithy-client": "^2.1.12",
     "@types/jest": "^29.5.3",
     "amplify-appsync-simulator": "^2.4.1",
     "amplify-velocity-template": "^1.4.12",
