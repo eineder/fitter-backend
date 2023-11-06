@@ -38,7 +38,7 @@ const an_appsync_velocity_context = (identity, args, result) => {
   };
 };
 
-function an_appsync_js_context_json(identity, args) {
+function an_appsync_js_context_json(identity, args = {}) {
   const ctx = {
     arguments: args,
     source: {},

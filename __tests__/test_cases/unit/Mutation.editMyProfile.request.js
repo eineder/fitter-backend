@@ -2,11 +2,10 @@ const chance = require("chance").Chance();
 const path = require("path");
 const given = require("../../steps/given");
 const when = require("../../steps/when");
-const fs = require("fs");
-const { AppSync } = require("@aws-sdk/client-appsync");
 
 describe("Query.getMyProfile.request template", () => {
   it("Should use the newProfile's fields", async () => {
+    const username = chance.guid();
     const newProfile = {
       name: "Toni Test",
       imageUrl: null,
@@ -16,28 +15,18 @@ describe("Query.getMyProfile.request template", () => {
       website: null,
       birthdate: null,
     };
-
-    const username = chance.guid();
     const contextJson = given.an_appsync_js_context_json(username, {
       newProfile,
     });
-    const client = new AppSync({
-      region: "us-east-2",
-    });
-    const runtime = { name: "APPSYNC_JS", runtimeVersion: "1.0.0" };
     const resolverPath = path.resolve(
       __dirname,
       "../../../resolvers/editMyProfile.js"
     );
-    const code = fs.readFileSync(resolverPath, "utf8");
 
-    const response = await client.evaluateCode({
-      code,
-      context: contextJson,
-      runtime,
-      function: "request",
-    });
-    const result = JSON.parse(response.evaluationResult);
+    const result = await when.we_evaluate_resolver_function(
+      resolverPath,
+      contextJson
+    );
 
     expect(result).toEqual({
       operation: "UpdateItem",
