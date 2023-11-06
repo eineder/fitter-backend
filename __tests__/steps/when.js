@@ -178,11 +178,18 @@ const a_user_calls_getImageUploadUrl = async (user, extension, contentType) => {
 const a_user_calls_tweet = async (user, text) => {
   const mutation = `mutation tweet($text: String!) {
   tweet(text: $text) {
+    id
+    profile {
+      id
+      name
+      screenName
+    }
+    createdAt
     text
     replies
     likes
     retweets
-  } 
+  }
 }`;
 
   const variables = {
@@ -199,6 +206,44 @@ const a_user_calls_tweet = async (user, text) => {
   console.log(`[${user.username}] - posted new tweet`);
 
   return newTweet;
+};
+
+const a_user_calls_getTweets = async (user, userId, limit, nextToken) => {
+  const query = `query getTweets($userId: ID!, $limit: Int!, $nextToken: String) {
+  getTweets(userId: $userId, limit: $limit, nextToken: $nextToken) {
+    nextToken
+    tweets {
+      id
+      createdAt
+      profile {
+        id
+        name
+        screenName
+      }
+      ... on Tweet {
+        text
+        replies
+        likes
+        retweets
+      }
+    }
+  } 
+}`;
+
+  const variables = {
+    userId,
+    limit,
+    nextToken,
+  };
+
+  const data = await GraphQL(
+    process.env.API_URL,
+    query,
+    variables,
+    user.accessToken
+  );
+
+  return data.getTweets;
 };
 
 const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
@@ -228,5 +273,6 @@ module.exports = {
   a_user_calls_getImageUploadUrl,
   we_invoke_tweet,
   a_user_calls_tweet,
+  a_user_calls_getTweets,
   we_evaluate_resolver_function,
 };
