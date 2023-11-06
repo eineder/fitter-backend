@@ -7,56 +7,52 @@ authentication:
     defaultAction: ALLOW
     userPoolId: !Ref CognitoUserPool
 resolvers:
-  
   Query.getMyProfile:
     dataSource: usersTable
     kind: UNIT
-    code: 'resolvers/getMyProfile.js'
+    code: "resolvers/getMyProfile.js"
 
   Query.getImageUploadUrl:
     dataSource: getImageUploadUrlFunction
     kind: UNIT
-  
+
   Query.getTweets:
     dataSource: tweetsTable
     kind: UNIT
-    request: 'mapping-templates/Query.getTweets.request.vtl'
-    response: 'mapping-templates/Query.getTweets.response.vtl'
-  
+    request: "mapping-templates/Query.getTweets.request.vtl"
+    response: "mapping-templates/Query.getTweets.response.vtl"
+
   Query.getMyTimeline:
     dataSource: timelinesTable
     kind: UNIT
-    request: 'mapping-templates/Query.getMyTimeline.request.vtl'
-    response: 'mapping-templates/Query.getMyTimeline.response.vtl'
-
+    request: "mapping-templates/Query.getMyTimeline.request.vtl"
+    response: "mapping-templates/Query.getMyTimeline.response.vtl"
 
   Mutation.editMyProfile:
     dataSource: usersTable
     kind: UNIT
-    request: 'mapping-templates/Mutation.editMyProfile.request.vtl'
-    response: 'mapping-templates/Mutation.editMyProfile.response.vtl'
-  
+    code: "resolvers/editMyProfile.js"
+    # request: 'mapping-templates/Mutation.editMyProfile.request.vtl'
+    # response: 'mapping-templates/Mutation.editMyProfile.response.vtl'
+
   Mutation.tweet:
     dataSource: tweetFunction
     kind: UNIT
-
 
   ## nested fields:
   Tweet.profile:
     dataSource: usersTable
     kind: UNIT
-    request: 'mapping-templates/Tweet.profile.request.vtl'
-    response: 'mapping-templates/Tweet.profile.response.vtl'
-  
-  
+    request: "mapping-templates/Tweet.profile.request.vtl"
+    response: "mapping-templates/Tweet.profile.response.vtl"
+
   TimelinePage.tweets:
     dataSource: tweetsTable
     kind: UNIT
-    request: 'mapping-templates/TimelinePage.tweets.request.vtl'
-    response: 'mapping-templates/TimelinePage.tweets.response.vtl'
-  
-dataSources:
+    request: "mapping-templates/TimelinePage.tweets.request.vtl"
+    response: "mapping-templates/TimelinePage.tweets.response.vtl"
 
+dataSources:
   none:
     type: NONE
 
@@ -82,7 +78,7 @@ dataSources:
 
   tweetFunction:
     type: AWS_LAMBDA
-    config: 
+    config:
       functionName: tweet
 
 substitutions:
