@@ -19,6 +19,8 @@ const tweet = async (event) => {
     replies: 0,
     likes: 0,
     retweets: 0,
+    liked: false,
+    retweeted: false,
   };
 
   const document = DynamoDBDocument.from(new DynamoDb());
