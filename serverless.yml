@@ -33,6 +33,10 @@ custom:
     disableOutput: true
     silent: true
 
+layers:
+  shared:
+    path: ./shared
+
 functions:
   confirmUserSignup:
     handler: functions/confirm-user-signup.handler
@@ -69,6 +73,31 @@ functions:
         Resource:
           - !GetAtt TweetsTable.Arn
           - !GetAtt TimelinesTable.Arn
+
+  # deleteInactiveUsers:
+  #   handler: functions/delete-inactive-users.handler
+  #   environment:
+  #     USERS_TABLE: !Ref UsersTable
+  #   iamRoleStatements:
+  #     - Effect: Allow
+  #       Action: dynamodb:Scan
+  #       Resource: !GetAtt UsersTable.Arn
+  #     - Effect: Allow
+  #       Action: dynamodb:DeleteItem
+  #       Resource: !GetAtt UsersTable.Arn
+
+  markActiveOnLogin:
+    handler: mark-active-on-login.handler
+    environment:
+      USERS_TABLE: !Ref UsersTable
+    events:
+      - cognitoUserPool:
+          pool: CognitoUserPool
+          trigger: PostAuthentication
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: !GetAtt UsersTable.Arn
 
 resources:
   Resources:
@@ -134,6 +163,17 @@ resources:
             Value: ${self:custom.stage}
           - Key: Name
             Value: timelines-table
+
+    LogTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+          - AttributeName: timestamp
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: timestamp
+            AttributeType: S
 
     CognitoUserPool:
       Type: AWS::Cognito::UserPool
@@ -211,3 +251,6 @@ resources:
 
     ApiUrl:
       Value: !GetAtt GraphQlApi.GraphQLUrl
+
+    LogTableName:
+      Value: !GetAtt LogTable.Arn
