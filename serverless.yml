@@ -14,7 +14,15 @@ provider:
   environment:
     STAGE: ${self:custom.stage}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    LOG_TABLE: !Ref LogTable
   stage: dev
+  iam:
+    role:
+      statements:
+        # Allow functions to write to the log table
+        - Effect: Allow
+          Action: dynamodb:PutItem
+          Resource: !GetAtt LogTable.Arn
 
 package:
   exclude:
@@ -30,12 +38,8 @@ custom:
   manifest:
     postProcess: ./processManifest.js
     disablePostDeployGeneration: true
-    disableOutput: true
+    disableOutput: false
     silent: true
-
-layers:
-  shared:
-    path: ./shared
 
 functions:
   confirmUserSignup:
@@ -87,7 +91,7 @@ functions:
   #       Resource: !GetAtt UsersTable.Arn
 
   markActiveOnLogin:
-    handler: mark-active-on-login.handler
+    handler: functions/mark-active-on-login.handler
     environment:
       USERS_TABLE: !Ref UsersTable
     events:
@@ -196,12 +200,21 @@ resources:
             Mutable: true
         LambdaConfig:
           PostConfirmation: !GetAtt ConfirmUserSignupLambdaFunction.Arn
+          PostAuthentication: !GetAtt MarkActiveOnLoginLambdaFunction.Arn
 
     UserPoolInvokeConfirmUserSignupLambdaPermission:
       Type: AWS::Lambda::Permission
       Properties:
         Action: lambda:invokeFunction
         FunctionName: !Ref ConfirmUserSignupLambdaFunction
+        Principal: cognito-idp.amazonaws.com
+        SourceArn: !GetAtt CognitoUserPool.Arn
+
+    UserPoolInvokeMarkActiveOnLoginLambdaPermission:
+      Type: AWS::Lambda::Permission
+      Properties:
+        Action: lambda:invokeFunction
+        FunctionName: !Ref MarkActiveOnLoginLambdaFunction
         Principal: cognito-idp.amazonaws.com
         SourceArn: !GetAtt CognitoUserPool.Arn
 
@@ -251,6 +264,3 @@ resources:
 
     ApiUrl:
       Value: !GetAtt GraphQlApi.GraphQLUrl
-
-    LogTableName:
-      Value: !GetAtt LogTable.Arn

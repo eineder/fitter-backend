@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "sls deploy && npm run exportEnv",
+    "sls": "sls",
     "exportEnv": "sls export-env --overwrite --all && sls manifest",
     "tu": "jest --verbose ./__tests__/test_cases/unit",
     "ti": "jest --verbose ./__tests__/test_cases/integration",
