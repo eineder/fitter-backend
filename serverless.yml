@@ -14,15 +14,7 @@ provider:
   environment:
     STAGE: ${self:custom.stage}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
-    LOG_TABLE: !Ref LogTable
   stage: dev
-  iam:
-    role:
-      statements:
-        # Allow functions to write to the log table
-        - Effect: Allow
-          Action: dynamodb:PutItem
-          Resource: !GetAtt LogTable.Arn
 
 package:
   exclude:
@@ -98,10 +90,10 @@ functions:
       - cognitoUserPool:
           pool: CognitoUserPool
           trigger: PostAuthentication
-    iamRoleStatements:
-      - Effect: Allow
-        Action: dynamodb:UpdateItem
-        Resource: !GetAtt UsersTable.Arn
+    # iamRoleStatements:
+    #   - Effect: Allow
+    #     Action: dynamodb:UpdateItem
+    #     Resource: !GetAtt UsersTable.Arn
 
 resources:
   Resources:
@@ -167,17 +159,6 @@ resources:
             Value: ${self:custom.stage}
           - Key: Name
             Value: timelines-table
-
-    LogTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        BillingMode: PAY_PER_REQUEST
-        KeySchema:
-          - AttributeName: timestamp
-            KeyType: HASH
-        AttributeDefinitions:
-          - AttributeName: timestamp
-            AttributeType: S
 
     CognitoUserPool:
       Type: AWS::Cognito::UserPool
