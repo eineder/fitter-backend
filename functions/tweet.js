@@ -1,5 +1,5 @@
 const ulid = require("ulid");
-const { DynamoDB: DynamoDb } = require("@aws-sdk/client-dynamodb");
+const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 const { TweetType } = require("../lib/constants");
 const { USERS_TABLE, TWEETS_TABLE, TIMELINES_TABLE } = process.env;
@@ -23,7 +23,7 @@ const tweet = async (event) => {
     retweeted: false,
   };
 
-  const document = DynamoDBDocument.from(new DynamoDb());
+  const document = DynamoDBDocument.from(new DynamoDB());
   await document.transactWrite({
     TransactItems: [
       {

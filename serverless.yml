@@ -90,10 +90,10 @@ functions:
       - cognitoUserPool:
           pool: CognitoUserPool
           trigger: PostAuthentication
-    # iamRoleStatements:
-    #   - Effect: Allow
-    #     Action: dynamodb:UpdateItem
-    #     Resource: !GetAtt UsersTable.Arn
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: !GetAtt UsersTable.Arn
 
 resources:
   Resources:

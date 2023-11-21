@@ -20,6 +20,30 @@ const user_exists_in_UsersTable = async (id) => {
   return (await resp).Item;
 };
 
+const user_is_marked_as_last_seen_recently = async (id) => {
+  const document = DynamoDBDocument.from(new DynamoDB());
+  console.log(
+    `Looking for user with id ${id} in table [${process.env.USERS_TABLE}].`
+  );
+  const resp = await document.get({
+    TableName: process.env.USERS_TABLE,
+    Key: {
+      id,
+    },
+    AttributesToGet: ["lastSeen"],
+  });
+
+  const end = Date.parse(new Date().toISOString());
+  // Tolerance is 20 seconds:
+  const start = end - 1000 * 20;
+  const lastSeen = Date.parse(resp.Item.lastSeen);
+
+  expect(lastSeen).toBeGreaterThan(start);
+  expect(lastSeen).toBeLessThan(end);
+
+  return resp.Item;
+};
+
 const tweet_exists_in_tweets_table = async (id) => {
   const document = DynamoDBDocument.from(new DynamoDB());
   console.log(
@@ -101,6 +125,7 @@ const user_can_download_from = async (url) => {
 
 module.exports = {
   user_exists_in_UsersTable,
+  user_is_marked_as_last_seen_recently,
   user_can_upload_image_to_url,
   user_can_download_from,
   tweet_exists_in_tweets_table,
