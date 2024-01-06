@@ -1,16 +1,20 @@
-const { getOutdatedUsers, deleteUsers } = require("../lib/dynamo");
+const dynamo = require("../lib/dynamo");
 
 exports.handler = async (event, context) => {
   try {
-    const scanResult = await getOutdatedUsers();
+    const scanResult = await dynamo.getOutdatedUsers();
     if (scanResult.Items && scanResult.Items.length === 0) {
       console.log("No items to delete");
       return event;
     }
 
     const ids = scanResult.Items.map((item) => item.id);
-    const response = await deleteUsers(ids);
-    console.log("Deleted users: ", response);
+    const dynamoResponse = await dynamo.deleteUsers(ids);
+    console.log("Deleted users from DB: ", dynamoResponse);
+
+    const cognitoResponse = await cognito.deleteUsers(ids);
+    console.log("Deleted users from Cognito: ", cognitoResponse);
+
   } catch (error) {
     console.error("Error:", error);
   } finally {
