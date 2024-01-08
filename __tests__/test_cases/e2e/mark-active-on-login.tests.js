@@ -1,5 +1,4 @@
 const given = require("../../steps/given");
-const when = require("../../steps/when");
 const then = require("../../steps/then");
 
 describe("When a user signs in", () => {
