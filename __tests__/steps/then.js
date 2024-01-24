@@ -123,9 +123,58 @@ const user_can_download_from = async (url) => {
   return response.data;
 };
 
+const user_and_data_are_gone = async (username) => {
+  const document = DynamoDBDocument.from(new DynamoDB());
+  console.log(
+    `Looking for user ${username} in table [${process.env.USERS_TABLE}].`
+  );
+  const userResponse = document.get({
+    TableName: process.env.USERS_TABLE,
+    Key: {
+      id: username,
+    },
+  });
+
+  expect((await userResponse).Item).toBeUndefined();
+
+  console.log(
+    `Looking for tweets from ${username} in table [${process.env.TWEETS_TABLE}].`
+  );
+  const tweetsResponse = document.query({
+    TableName: process.env.TWEETS_TABLE,
+    KeyConditionExpression: "#userId = :userId",
+    ExpressionAttributeNames: {
+      "#userId": "userId",
+    },
+    ExpressionAttributeValues: {
+      ":userId": username,
+    },
+  });
+
+  expect((await tweetsResponse).Items).toHaveLength(0);
+
+  console.log(
+    `Looking for tweets from ${username} in table [${process.env.TIMELINES_TABLE}].`
+  );
+  const timelinesResponse = document.query({
+    TableName: process.env.TIMELINES_TABLE,
+    KeyConditionExpression: "#userId = :userId",
+    ExpressionAttributeNames: {
+      "#userId": "userId",
+    },
+    ExpressionAttributeValues: {
+      ":userId": username,
+    },
+  });
+
+  expect((await timelinesResponse).Items).toHaveLength(0);
+  ff;
+};
+
 module.exports = {
   user_exists_in_UsersTable,
   user_is_marked_as_last_seen_recently,
+  user_and_data_are_gone,
   user_can_upload_image_to_url,
   user_can_download_from,
   tweet_exists_in_tweets_table,

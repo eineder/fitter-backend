@@ -263,6 +263,12 @@ const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
   return JSON.parse(response.evaluationResult);
 };
 
+const we_invoke_deleteInactiveUsers = async () => {
+  const handler = require("../../functions/delete-inactive-users").handler;
+
+  return await handler({}, {});
+};
+
 module.exports = {
   we_invoke_confirmUserSignup,
   a_user_signs_up,
@@ -275,4 +281,5 @@ module.exports = {
   a_user_calls_tweet,
   a_user_calls_getTweets,
   we_evaluate_resolver_function,
+  we_invoke_deleteInactiveUsers,
 };

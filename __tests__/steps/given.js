@@ -87,6 +87,8 @@ const an_inactive_user_with_tweets = async () => {
   await tweet(user, chance.string({ length: 8 }));
 
   await updateLastSeen(user.username, "2001-01-01T00:00:00.000Z");
+
+  return user;
 };
 
 const updateLastSeen = async (userId, lastSeen) => {

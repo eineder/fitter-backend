@@ -9,14 +9,14 @@ exports.handler = async (event, context) => {
     }
 
     const ids = scanResult.Items.map((item) => item.id);
-    const dynamoResponse = await dynamo.deleteUsers(ids);
-    console.log("Deleted users from DB: ", dynamoResponse);
+    await dynamo.deleteUsers(ids);
+    console.log("Deleted users from DB: ", ids);
 
     const cognitoResponse = await cognito.deleteUsers(ids);
     console.log("Deleted users from Cognito: ", cognitoResponse);
-
   } catch (error) {
     console.error("Error:", error);
+    throw error;
   } finally {
     return event;
   }
