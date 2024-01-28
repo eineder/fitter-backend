@@ -142,10 +142,10 @@ const user_and_data_are_gone = async (username) => {
   );
   const tweetsResponse = document.query({
     TableName: process.env.TWEETS_TABLE,
-    KeyConditionExpression: "creator = :userId",
+    KeyConditionExpression: "#creator = :userId",
     IndexName: "byCreator",
     ExpressionAttributeNames: {
-      creator: "userId",
+      "#creator": "creator",
     },
     ExpressionAttributeValues: {
       ":userId": username,
