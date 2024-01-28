@@ -1,9 +1,18 @@
-const { getOutdatedUsers, deleteUsers } = require("../lib/dynamo");
+const dynamo = require("../lib/dynamo");
 require("dotenv").config();
 
-try {
-  const response = await deleteUsers(["c7e5175f-c05c-56aa-95e1-cedd849ae33c"]);
-  console.log(response);
-} catch (error) {
-  console.log(error);
+async function doIt() {
+  try {
+    const resp = await dynamo.internal.getUsersWithTweets();
+    const id = resp.Items[0].id;
+    console.log(id);
+    const response = await dynamo.internal.deleteUserData([id]);
+    await dynamo.deleteUsers([id]);
+
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
 }
+
+doIt();
