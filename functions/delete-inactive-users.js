@@ -12,8 +12,8 @@ exports.handler = async (event, context) => {
     await dynamo.deleteUsers(ids);
     console.log("Deleted users from DB: ", ids);
 
-    const cognitoResponse = await cognito.deleteUsers(ids);
-    console.log("Deleted users from Cognito: ", cognitoResponse);
+    // const cognitoResponse = await cognito.deleteUsers(ids);
+    // console.log("Deleted users from Cognito: ", cognitoResponse);
   } catch (error) {
     console.error("Error:", error);
     throw error;

@@ -138,7 +138,7 @@ const user_and_data_are_gone = async (username) => {
   expect((await userResponse).Item).toBeUndefined();
 
   console.log(
-    `Looking for tweets from ${username} in table [${process.env.TWEETS_TABLE}].`
+    `Looking for tweets from user ${username} in table [${process.env.TWEETS_TABLE}].`
   );
   const tweetsResponse = document.query({
     TableName: process.env.TWEETS_TABLE,
@@ -155,7 +155,7 @@ const user_and_data_are_gone = async (username) => {
   expect((await tweetsResponse).Items).toHaveLength(0);
 
   console.log(
-    `Looking for tweets from ${username} in table [${process.env.TIMELINES_TABLE}].`
+    `Looking for timeline entries for user ${username} in table [${process.env.TIMELINES_TABLE}].`
   );
   const timelinesResponse = document.query({
     TableName: process.env.TIMELINES_TABLE,
@@ -169,7 +169,6 @@ const user_and_data_are_gone = async (username) => {
   });
 
   expect((await timelinesResponse).Items).toHaveLength(0);
-  ff;
 };
 
 module.exports = {
