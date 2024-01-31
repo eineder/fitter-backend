@@ -5,6 +5,7 @@ const velocityTemplate = require("amplify-velocity-template");
 const cognitoUtil = require("../lib/cognitoUtil");
 const GraphQL = require("../lib/graphql");
 const { AppSync } = require("@aws-sdk/client-appsync");
+const process = require("process");
 
 const we_invoke_confirmUserSignup = async (username, name, email) => {
   const handler = require("../../functions/confirm-user-signup").handler;
@@ -108,6 +109,7 @@ const a_user_calls_editMyProfle = async (user, input) => {
   const variables = {
     input,
   };
+
   const data = await GraphQL(
     process.env.API_URL,
     mutation,

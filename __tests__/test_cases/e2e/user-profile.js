@@ -5,6 +5,7 @@ const then = require("../../steps/then");
 const getUploadUrlPattern = require("../../lib/urlUtil");
 const chance = require("chance").Chance();
 const path = require("path");
+const process = require("process");
 
 describe("Given an authenticated user", () => {
   let user, profile;
@@ -45,6 +46,7 @@ describe("Given an authenticated user", () => {
     const regex = getUploadUrlPattern(BUCKET_NAME, user.username, ".png");
     expect(uploadUrl).toMatch(regex);
 
+    // eslint-disable-next-line no-undef
     const filePath = path.join(__dirname, "../../data/cherries.png");
     await then.user_can_upload_image_to_url(uploadUrl, filePath, "image/png");
 

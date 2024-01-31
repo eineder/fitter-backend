@@ -1,5 +1,6 @@
 const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
+const process = require("process");
 
 module.exports.handler = async (event) => {
   if (event.triggerSource !== "PostAuthentication_Authentication") return event;

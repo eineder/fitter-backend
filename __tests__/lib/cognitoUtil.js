@@ -4,6 +4,7 @@ const {
   CognitoIdentityProviderClient,
   AdminGetUserCommand,
 } = require("@aws-sdk/client-cognito-identity-provider");
+const process = require("process");
 
 const signupAndConfirmUser = async (name, email, password) => {
   const cognito = new CognitoIdentityProvider();

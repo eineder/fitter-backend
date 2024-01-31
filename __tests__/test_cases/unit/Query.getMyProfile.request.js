@@ -6,6 +6,7 @@ const when = require("../../steps/when");
 describe("Query.getMyProfile.request template", () => {
   it("Should use the username as 'id'", async () => {
     const resolverPath = path.resolve(
+      // eslint-disable-next-line no-undef
       __dirname,
       "../../../resolvers/getMyProfile.js"
     );

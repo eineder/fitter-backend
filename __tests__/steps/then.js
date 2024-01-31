@@ -3,6 +3,7 @@ const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 const http = require("axios").default;
 const fs = require("fs");
 const { checkUserExists } = require("./../lib/cognitoUtil");
+const process = require("process");
 
 const user_exists_in_UsersTable = async (id) => {
   const document = DynamoDBDocument.from(new DynamoDB());

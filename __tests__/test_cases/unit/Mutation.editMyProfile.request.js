@@ -19,6 +19,7 @@ describe("Query.getMyProfile.request template", () => {
       newProfile,
     });
     const resolverPath = path.resolve(
+      // eslint-disable-next-line no-undef
       __dirname,
       "../../../resolvers/editMyProfile.js"
     );

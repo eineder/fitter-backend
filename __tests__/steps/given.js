@@ -3,6 +3,7 @@ const velocityUtil = require("amplify-appsync-simulator/lib/velocity/util");
 const cognitoUtil = require("../lib/cognitoUtil");
 const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
+const process = require("process");
 
 const a_random_user = () => {
   const firstname = chance.first({ nationality: "en" });

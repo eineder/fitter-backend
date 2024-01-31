@@ -6,6 +6,7 @@ const path = require("path");
 describe("TimelinePage.tweets.request template", () => {
   it("Should return empty array if source.tweets is empty", () => {
     const templatePath = path.resolve(
+      // eslint-disable-next-line no-undef
       __dirname,
       "../../../mapping-templates/TimelinePage.tweets.request.vtl"
     );
@@ -24,6 +25,7 @@ describe("TimelinePage.tweets.request template", () => {
 
   it("Should convert timeline tweets to BatchGetItem keys", () => {
     const templatePath = path.resolve(
+      // eslint-disable-next-line no-undef
       __dirname,
       "../../../mapping-templates/TimelinePage.tweets.request.vtl"
     );

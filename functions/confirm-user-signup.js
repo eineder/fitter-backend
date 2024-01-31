@@ -1,6 +1,7 @@
 const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 const { DynamoDB: DynamoDb } = require("@aws-sdk/client-dynamodb");
 const DocumentClient = DynamoDBDocument.from(new DynamoDb());
+const process = require("process");
 
 const Chance = require("chance");
 const chance = new Chance();

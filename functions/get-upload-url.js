@@ -1,4 +1,5 @@
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const process = require("process");
 
 const { PutObjectCommand, S3 } = require("@aws-sdk/client-s3");
 

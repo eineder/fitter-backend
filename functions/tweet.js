@@ -2,6 +2,8 @@ const ulid = require("ulid");
 const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 const { TweetType } = require("../lib/constants");
+const process = require("process");
+
 const { USERS_TABLE, TWEETS_TABLE, TIMELINES_TABLE } = process.env;
 
 const tweet = async (event) => {

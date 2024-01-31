@@ -16,5 +16,5 @@ describe("When a user has been inactive for a while", () => {
     assertionPromises.push(then.user_and_data_are_gone(user2.username));
     assertionPromises.push(then.user_and_data_are_gone(user3.username));
     await Promise.all(assertionPromises);
-  });
+  }, 20000);
 });

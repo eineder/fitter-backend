@@ -2,6 +2,7 @@ require("dotenv").config();
 const when = require("../../steps/when");
 const chance = require("chance").Chance();
 const getUploadUrlPattern = require("../../lib/urlUtil");
+const process = require("process");
 
 describe("When getImageUploadUrl runs", () => {
   it.each([

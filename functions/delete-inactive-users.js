@@ -1,7 +1,7 @@
 const dynamo = require("../lib/dynamo");
 const cognito = require("../lib/cognito");
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   try {
     const scanResult = await dynamo.getOutdatedUsers();
     if (scanResult.Items && scanResult.Items.length === 0) {
@@ -18,7 +18,5 @@ exports.handler = async (event, context) => {
   } catch (error) {
     console.error("Error:", error);
     throw error;
-  } finally {
-    return event;
   }
 };
