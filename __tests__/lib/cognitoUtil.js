@@ -1,6 +1,8 @@
 require("dotenv").config();
 const {
   CognitoIdentityProvider,
+  CognitoIdentityProviderClient,
+  AdminGetUserCommand,
 } = require("@aws-sdk/client-cognito-identity-provider");
 
 const signupAndConfirmUser = async (name, email, password) => {
@@ -48,7 +50,35 @@ const signInUser = async (clientId, username, password) => {
   };
 };
 
+const checkUserExists = async (username) => {
+  const userPoolId = process.env.COGNITO_USER_POOL_ID;
+  const cognitoClient = new CognitoIdentityProviderClient();
+  const command = new AdminGetUserCommand({
+    UserPoolId: userPoolId,
+    Username: username,
+  });
+
+  try {
+    console.log(
+      `Looking for user ${username} in Cognito User Pool ${userPoolId}.`
+    );
+    await cognitoClient.send(command);
+    console.log(`User ${username} exists in Cognito User Pool ${userPoolId}`);
+    return true;
+  } catch (error) {
+    if (error.name === "UserNotFoundException") {
+      console.log(
+        `User ${username} does not exist in Cognito User Pool ${userPoolId}`
+      );
+      return false;
+    } else {
+      throw error;
+    }
+  }
+};
+
 module.exports = {
+  checkUserExists,
   signupAndConfirmUser,
   signInUser,
 };

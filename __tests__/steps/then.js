@@ -1,11 +1,8 @@
-const {
-  CognitoIdentityProviderClient,
-  AdminGetUserCommand,
-} = require("@aws-sdk/client-cognito-identity-provider");
 const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 const http = require("axios").default;
 const fs = require("fs");
+const { checkUserExists } = require("./../lib/cognitoUtil");
 
 const user_exists_in_UsersTable = async (id) => {
   const document = DynamoDBDocument.from(new DynamoDB());
@@ -128,7 +125,6 @@ const user_can_download_from = async (url) => {
 };
 
 const user_and_data_are_gone = async (username) => {
-  console.log(`Looking for user ${username} in Cognito.`);
   const userExists = await checkUserExists(username);
 
   expect(userExists).toBeFalsy();
@@ -179,30 +175,6 @@ const user_and_data_are_gone = async (username) => {
 
   expect((await timelinesResponse).Items).toHaveLength(0);
 };
-
-async function checkUserExists(username) {
-  const userPoolId = process.env.COGNITO_USER_POOL_ID;
-  const cognitoClient = new CognitoIdentityProviderClient();
-  const command = new AdminGetUserCommand({
-    UserPoolId: userPoolId,
-    Username: username,
-  });
-
-  try {
-    const response = await cognitoClient.send(command);
-    console.log(`User ${username} exists in Cognito User Pool ${userPoolId}`);
-    return true;
-  } catch (error) {
-    if (error.name === "UserNotFoundException") {
-      console.log(
-        `User ${username} does not exist in Cognito User Pool ${userPoolId}`
-      );
-      return false;
-    } else {
-      throw error;
-    }
-  }
-}
 
 module.exports = {
   user_exists_in_UsersTable,
