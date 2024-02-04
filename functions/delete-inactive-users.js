@@ -2,6 +2,8 @@ const dynamo = require("../lib/dynamo");
 const cognito = require("../lib/cognito");
 
 exports.handler = async (event) => {
+  console.log("deleteInactiveUsers called with Event: ", event);
+
   try {
     const scanResult = await dynamo.getOutdatedUsers();
     if (scanResult.Items && scanResult.Items.length === 0) {

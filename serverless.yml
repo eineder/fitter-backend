@@ -43,6 +43,15 @@ functions:
         Action: dynamodb:PutItem
         Resource: !GetAtt UsersTable.Arn
 
+  markActiveOnLogin:
+    handler: functions/mark-active-on-login.handler
+    environment:
+      USERS_TABLE: !Ref UsersTable
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: !GetAtt UsersTable.Arn
+
   getImageUploadUrl:
     handler: functions/get-upload-url.handler
     environment:
@@ -70,30 +79,22 @@ functions:
           - !GetAtt TweetsTable.Arn
           - !GetAtt TimelinesTable.Arn
 
-  # deleteInactiveUsers:
-  #   handler: functions/delete-inactive-users.handler
-  #   environment:
-  #     USERS_TABLE: !Ref UsersTable
-  #   iamRoleStatements:
-  #     - Effect: Allow
-  #       Action: dynamodb:Scan
-  #       Resource: !GetAtt UsersTable.Arn
-  #     - Effect: Allow
-  #       Action: dynamodb:DeleteItem
-  #       Resource: !GetAtt UsersTable.Arn
-
-  markActiveOnLogin:
-    handler: functions/mark-active-on-login.handler
+  deleteInactiveUsers:
+    handler: functions/delete-inactive-users.handler
     environment:
       USERS_TABLE: !Ref UsersTable
-    events:
-      - cognitoUserPool:
-          pool: CognitoUserPool
-          trigger: PostAuthentication
     iamRoleStatements:
       - Effect: Allow
-        Action: dynamodb:UpdateItem
+        Action: dynamodb:Scan
         Resource: !GetAtt UsersTable.Arn
+      - Effect: Allow
+        Action: dynamodb:DeleteItem
+        Resource: !GetAtt UsersTable.Arn
+    events:
+      - schedule:
+          name: deleteInactiveUsers
+          description: "Delete inactive users"
+          rate: rate(1 day)
 
 resources:
   Resources:
