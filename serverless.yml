@@ -83,13 +83,27 @@ functions:
     handler: functions/delete-inactive-users.handler
     environment:
       USERS_TABLE: !Ref UsersTable
+      TWEETS_TABLE: !Ref TweetsTable
+      TIMELINES_TABLE: !Ref TimelinesTable
+      COGNITO_USER_POOL_ID: !Ref CognitoUserPool
     iamRoleStatements:
       - Effect: Allow
-        Action: dynamodb:Scan
-        Resource: !GetAtt UsersTable.Arn
+        Action: dynamodb:Query
+        Resource: !GetAtt TimelinesTable.Arn
       - Effect: Allow
-        Action: dynamodb:DeleteItem
-        Resource: !GetAtt UsersTable.Arn
+        Action: dynamodb:Scan
+        Resource:
+          - !GetAtt UsersTable.Arn
+          - !GetAtt TweetsTable.Arn
+      - Effect: Allow
+        Action: dynamodb:BatchWriteItem
+        Resource:
+          - !GetAtt UsersTable.Arn
+          - !GetAtt TweetsTable.Arn
+          - !GetAtt TimelinesTable.Arn
+      - Effect: Allow
+        Action: cognito-idp:AdminDeleteUser
+        Resource: !GetAtt CognitoUserPool.Arn
     events:
       - schedule:
           name: deleteInactiveUsers
