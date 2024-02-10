@@ -262,6 +262,10 @@ const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
     function: "request",
   });
 
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
+
   return JSON.parse(response.evaluationResult);
 };
 

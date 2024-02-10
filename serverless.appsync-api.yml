@@ -39,6 +39,11 @@ resolvers:
     dataSource: tweetFunction
     kind: UNIT
 
+  Mutation.like:
+    dataSource: likesSource
+    kind: UNIT
+    code: "resolvers/like.js"
+
   ## nested fields:
   Tweet.profile:
     dataSource: usersTable
@@ -71,6 +76,24 @@ dataSources:
     config:
       tableName: !Ref TimelinesTable
 
+  likesSource:
+    type: AMAZON_DYNAMODB
+    config:
+      tableName: !Ref LikesTable
+      iamRoleStatements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+          Resource: !GetAtt LikesTable.Arn
+        - Effect: Allow
+          Action:
+            - dynamodb:UpdateItem
+          Resource: !GetAtt UsersTable.Arn
+        - Effect: Allow
+          Action:
+            - dynamodb:UpdateItem
+          Resource: !GetAtt TweetsTable.Arn
+
   getImageUploadUrlFunction:
     type: AWS_LAMBDA
     config:
@@ -83,3 +106,5 @@ dataSources:
 
 substitutions:
   TweetsTable: !Ref TweetsTable
+  UsersTable: !Ref UsersTable
+  LikesTable: !Ref LikesTable
