@@ -87,6 +87,10 @@ const an_inactive_user_with_tweets = async () => {
   await tweet(user, chance.string({ length: 32 }));
   await tweet(user, chance.string({ length: 8 }));
 
+  console.log(
+    `User ${user.username} has been created and posted three tweets.`
+  );
+
   await updateLastSeen(user.username, "2001-01-01T00:00:00.000Z");
 
   return user;
