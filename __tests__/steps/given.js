@@ -72,6 +72,9 @@ const an_authenticated_user = async () => {
     username,
     password
   );
+
+  console.log(`[${username}] - user has signed up and confirmed`);
+
   return {
     name,
     username,
