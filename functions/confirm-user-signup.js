@@ -17,11 +17,13 @@ module.exports.handler = async (event) => {
       numeric: true,
     });
     const screenName = `${name.replace(/[^a-zA-Z0-9]/g, "")}${suffix}`;
+    const now = new Date().toJSON();
     const user = {
       id: event.userName,
       name: name,
       screenName: screenName,
-      createdAt: new Date().toJSON(),
+      lastSeen: now,
+      createdAt: now,
       followersCount: 0,
       followingCount: 0,
       tweetsCount: 0,
