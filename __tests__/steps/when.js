@@ -191,6 +191,7 @@ const a_user_calls_tweet = async (user, text) => {
     replies
     likes
     retweets
+    liked
   }
 }`;
 

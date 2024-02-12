@@ -51,6 +51,11 @@ resolvers:
     request: "mapping-templates/Tweet.profile.request.vtl"
     response: "mapping-templates/Tweet.profile.response.vtl"
 
+  Tweet.liked:
+    dataSource: likesTable
+    kind: UNIT
+    code: "resolvers/Tweet.liked.js"
+
   TimelinePage.tweets:
     dataSource: tweetsTable
     kind: UNIT
@@ -75,6 +80,11 @@ dataSources:
     type: AMAZON_DYNAMODB
     config:
       tableName: !Ref TimelinesTable
+
+  likesTable:
+    type: AMAZON_DYNAMODB
+    config:
+      tableName: !Ref LikesTable
 
   likesSource:
     type: AMAZON_DYNAMODB
