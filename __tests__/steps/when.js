@@ -228,6 +228,7 @@ const a_user_calls_getTweets = async (user, userId, limit, nextToken) => {
         replies
         likes
         retweets
+        liked
       }
     }
   } 
