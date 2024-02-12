@@ -293,6 +293,55 @@ const a_user_calls_getTweets = async (user, userId, limit, nextToken) => {
   return data.getTweets;
 };
 
+const a_user_calls_getMyTimeline = async (user, limit, nextToken) => {
+  const getMyTimeline = `query getMyTimeline($limit: Int!, $nextToken: String) {
+    getMyTimeline(limit: $limit, nextToken: $nextToken) {
+      nextToken
+      tweets {
+        ... iTweetFields
+      }
+    }
+  }`;
+  const variables = {
+    limit,
+    nextToken,
+  };
+
+  const data = await GraphQL(
+    process.env.API_URL,
+    getMyTimeline,
+    variables,
+    user.accessToken
+  );
+  const result = data.getMyTimeline;
+
+  console.log(`[${user.username}] - fetched timeline`);
+
+  return result;
+};
+
+const a_user_calls_like = async (user, tweetId) => {
+  const likeMutation = `mutation likeMutation($tweetId: ID!) {
+    like(tweetId: $tweetId)
+  }`;
+
+  const variables = {
+    tweetId,
+  };
+
+  const data = await GraphQL(
+    process.env.API_URL,
+    likeMutation,
+    variables,
+    user.accessToken
+  );
+  const result = data;
+
+  console.log(`[${user.username}] - liked tweet ${tweetId}`);
+
+  return result;
+};
+
 const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
   const client = new AppSync({
     region: "eu-west-1",
@@ -331,6 +380,8 @@ module.exports = {
   we_invoke_tweet,
   a_user_calls_tweet,
   a_user_calls_getTweets,
+  a_user_calls_getMyTimeline,
+  a_user_calls_like,
   we_evaluate_resolver_function,
   we_invoke_deleteInactiveUsers,
 };
