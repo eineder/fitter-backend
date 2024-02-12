@@ -14,7 +14,7 @@ describe("Given an authenticated user", () => {
   });
 
   it("The user can fetch his profile with getMyProfile", async () => {
-    const profile = await when.a_user_calls_getMyProfle(user);
+    const profile = await when.a_user_calls_getMyProfile(user);
 
     expect(profile).toMatchObject({
       id: user.username,
