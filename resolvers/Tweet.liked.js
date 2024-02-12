@@ -11,6 +11,11 @@ export function request(ctx) {
 }
 
 export function response(ctx) {
-  util.error("Tweet.liked was executed with error.");
+  util.error(
+    "Tweet.liked was executed with error.",
+    "error",
+    JSON.stringify(ctx)
+  );
+
   return ctx.result !== null;
 }
