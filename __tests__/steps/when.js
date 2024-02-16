@@ -342,6 +342,28 @@ const a_user_calls_like = async (user, tweetId) => {
   return result;
 };
 
+const a_user_calls_unlike = async (user, tweetId) => {
+  const unlikeMutation = `mutation unlikeMutation($tweetId: ID!) {
+    like(tweetId: $tweetId)
+  }`;
+
+  const variables = {
+    tweetId,
+  };
+
+  const data = await GraphQL(
+    process.env.API_URL,
+    unlikeMutation,
+    variables,
+    user.accessToken
+  );
+  const result = data;
+
+  console.log(`[${user.username}] - unliked tweet ${tweetId}`);
+
+  return result;
+};
+
 const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
   const client = new AppSync({
     region: "eu-west-1",
@@ -382,6 +404,7 @@ module.exports = {
   a_user_calls_getTweets,
   a_user_calls_getMyTimeline,
   a_user_calls_like,
+  a_user_calls_unlike,
   we_evaluate_resolver_function,
   we_invoke_deleteInactiveUsers,
 };

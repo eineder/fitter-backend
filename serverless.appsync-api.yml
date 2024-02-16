@@ -44,6 +44,11 @@ resolvers:
     kind: UNIT
     code: "resolvers/like.js"
 
+  Mutation.unlike:
+    dataSource: likesSource
+    kind: UNIT
+    code: "resolvers/unlike.js"
+
   ## nested fields:
   Tweet.profile:
     dataSource: usersTable
