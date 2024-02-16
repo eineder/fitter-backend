@@ -82,13 +82,13 @@ describe("Given an authenticated user", () => {
         expect(tweets[0].liked).toEqual(true);
       });
 
-      // it("Should not be able to like the same tweet a second time", async () => {
-      //   await expect(() =>
-      //     when.a_user_calls_like(user, tweet.id)
-      //   ).rejects.toMatchObject({
-      //     message: expect.stringContaining("DynamoDB transaction error"),
-      //   });
-      // });
+      it("Should not be able to like the same tweet a second time", async () => {
+        await expect(() =>
+          when.a_user_calls_like(user, tweet.id)
+        ).rejects.toMatchObject({
+          message: expect.stringContaining("DynamoDB transaction error"),
+        });
+      });
     });
   });
 });

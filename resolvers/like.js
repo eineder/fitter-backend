@@ -53,8 +53,12 @@ export function request(ctx) {
 }
 
 export const response = (ctx) => {
+  if (ctx.result?.cancellationReasons) {
+    util.error("DynamoDB transaction error");
+  }
+
   if (ctx.error) {
-    util.error(ctx.error.message, ctx.error.type);
+    util.error("Failed to execute DynamoDB transaction");
   }
 
   return true;
