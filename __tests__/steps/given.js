@@ -43,6 +43,10 @@ const an_appsync_velocity_context = (identity, args, result, source) => {
 };
 
 function an_appsync_js_context_json(identity, args = {}) {
+  if (typeof identity !== "string") {
+    throw new Error("identity must be a string");
+  }
+
   const ctx = {
     arguments: args,
     source: {},

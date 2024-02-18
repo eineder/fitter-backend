@@ -379,7 +379,7 @@ const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
   });
 
   if (response.error) {
-    throw new Error(response.error.message);
+    throw response.error;
   }
 
   return JSON.parse(response.evaluationResult);
