@@ -24,15 +24,12 @@ resolvers:
   Query.getMyTimeline:
     dataSource: timelinesTable
     kind: UNIT
-    request: "mapping-templates/Query.getMyTimeline.request.vtl"
-    response: "mapping-templates/Query.getMyTimeline.response.vtl"
+    code: "resolvers/getMyTimeline.js"
 
   Mutation.editMyProfile:
     dataSource: usersTable
     kind: UNIT
     code: "resolvers/editMyProfile.js"
-    # request: 'mapping-templates/Mutation.editMyProfile.request.vtl'
-    # response: 'mapping-templates/Mutation.editMyProfile.response.vtl'
 
   Mutation.tweet:
     dataSource: tweetFunction
