@@ -10,7 +10,7 @@ export function request(ctx) {
     query: {
       expression: "creator = :userId",
       expressionValues: {
-        ":userId": util.dynamodb.toDynamoDB(ctx.arguments.userId),
+        ":userId": util.dynamodb.toDynamoDB({ userId: ctx.arguments.userId}),
       },
     },
     index: "byCreator",
