@@ -19,8 +19,7 @@ resolvers:
   Query.getTweets:
     dataSource: tweetsTable
     kind: UNIT
-    request: "mapping-templates/Query.getTweets.request.vtl"
-    response: "mapping-templates/Query.getTweets.response.vtl"
+    code: "resolvers/getTweets.js"
 
   Query.getMyTimeline:
     dataSource: timelinesTable
