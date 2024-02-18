@@ -1,0 +1,24 @@
+# @import ./login.http
+
+# @forceRef login
+@accessToken = {{login.AuthenticationResult.AccessToken}}
+
+POST {{API_URL}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-REQUEST-TYPE: GraphQL
+
+query getTweets($userId: ID!, $limit: Int!) {
+    getTweets(userId: $userId, limit: $limit) {
+      nextToken
+      tweets {
+        id
+        createdAt
+      }
+    }
+}
+
+{
+  "userId": "{{test-user-name}}",
+  "limit": 10
+}
