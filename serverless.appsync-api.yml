@@ -60,8 +60,7 @@ resolvers:
   TimelinePage.tweets:
     dataSource: tweetsTable
     kind: UNIT
-    request: "mapping-templates/TimelinePage.tweets.request.vtl"
-    response: "mapping-templates/TimelinePage.tweets.response.vtl"
+    code: "resolvers/TimelinePage.tweets.js"
 
 dataSources:
   none:

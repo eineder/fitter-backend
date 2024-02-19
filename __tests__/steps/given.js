@@ -42,15 +42,20 @@ const an_appsync_velocity_context = (identity, args, result, source) => {
   };
 };
 
-function an_appsync_js_context_json(identity, args = {}) {
+function an_appsync_js_context_json(
+  identity,
+  args = {},
+  result = {},
+  source = {}
+) {
   if (typeof identity !== "string") {
     throw new Error("identity must be a string");
   }
 
   const ctx = {
     arguments: args,
-    source: {},
-    result: {},
+    source: source,
+    result: result,
     identity: {
       sub: "uuid",
       issuer: " https://cognito-idp.{region}.amazonaws.com/{userPoolId}",

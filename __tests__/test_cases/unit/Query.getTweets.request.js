@@ -13,7 +13,7 @@ describe("getTweets.request", () => {
     );
   });
 
-  it("Should throw if limit > 25", () => {
+  it("Should throw if limit > 25", async () => {
     const username = chance.guid();
     const context = given.an_appsync_js_context_json(username, {
       userId: username,
@@ -21,10 +21,14 @@ describe("getTweets.request", () => {
       nextToken: null,
     });
 
-    expect(
-      async () =>
-        await when.we_evaluate_resolver_function(resolverPath, context)
-    ).rejects.toThrow("max limit is 25");
+    let exception;
+    try {
+      await when.we_evaluate_resolver_function(resolverPath, context);
+    } catch (error) {
+      exception = error;
+    }
+    expect(exception).toBeDefined();
+    expect(exception.message).toEqual("max limit is 25");
   });
 
   it("Should return a query command in the expected format", async () => {

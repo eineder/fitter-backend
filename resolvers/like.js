@@ -54,6 +54,10 @@ export function request(ctx) {
 
 export const response = (ctx) => {
   if (ctx.result?.cancellationReasons) {
+    console.log(
+      "Like resolver response cancelled.",
+      ctx.result.cancellationReasons
+    );
     util.error("DynamoDB transaction error");
   }
 
