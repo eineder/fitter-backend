@@ -3,8 +3,38 @@ const {
   CognitoIdentityProvider,
   CognitoIdentityProviderClient,
   AdminGetUserCommand,
+  UserNotFoundException,
 } = require("@aws-sdk/client-cognito-identity-provider");
 const process = require("process");
+
+const getOrSignupUser = async (name, email, newRandomPassword) => {
+  const cognito = new CognitoIdentityProvider();
+  const userPoolId = process.env.COGNITO_USER_POOL_ID;
+  const clientId = process.env.WEB_COGNITO_USER_POOL_CLIENT_ID;
+
+  try {
+    const getUserResponse = await cognito.adminGetUser({
+      Username: email,
+      UserPoolId: userPoolId,
+    });
+    await cognito.adminSetUserPassword({
+      Username: email,
+      Password: newRandomPassword,
+      UserPoolId: userPoolId,
+      Permanent: true,
+    });
+
+    return { clientId, username: getUserResponse.Username };
+  } catch (e) {
+    if (e instanceof UserNotFoundException) {
+      const user = await signupAndConfirmUser(name, email, newRandomPassword);
+
+      return { clientId, username: user.username };
+    } else {
+      throw e;
+    }
+  }
+};
 
 const signupAndConfirmUser = async (name, email, password) => {
   const cognito = new CognitoIdentityProvider();
@@ -80,6 +110,7 @@ const checkUserExists = async (username) => {
 
 module.exports = {
   checkUserExists,
+  getOrSignupUser,
   signupAndConfirmUser,
   signInUser,
 };

@@ -11,8 +11,11 @@ describe("Given an authenticated user", () => {
 
   describe("When he sends a tweet", () => {
     let tweet;
+    let tweetCountBefore;
     const text = chance.string({ length: 16 });
     beforeAll(async () => {
+      tweetCountBefore = (await when.a_user_calls_getMyTimeline(user, 25))
+        .tweets.length;
       tweet = await when.a_user_calls_tweet(user, text);
     });
 
@@ -33,9 +36,11 @@ describe("Given an authenticated user", () => {
         25
       );
 
+      const lastTweet = tweets[0];
+
       expect(nextToken).toBeNull();
-      expect(tweets.length).toEqual(1);
-      expect(tweets[0]).toEqual(tweet);
+      expect(tweets.length).toEqual(tweetCountBefore + 1);
+      expect(lastTweet).toEqual(tweet);
     });
 
     it("He cannot ask for more than 25 tweets in a page", async () => {
@@ -47,19 +52,6 @@ describe("Given an authenticated user", () => {
     });
 
     describe("When he calls getMyTimeline", () => {
-      let tweets, nextToken;
-      beforeAll(async () => {
-        const result = await when.a_user_calls_getMyTimeline(user, 25);
-        tweets = result.tweets;
-        nextToken = result.nextToken;
-      });
-
-      it("He will see the new tweet in the tweets array", () => {
-        expect(nextToken).toBeNull();
-        expect(tweets.length).toEqual(1);
-        expect(tweets[0]).toEqual(tweet);
-      });
-
       it("He cannot ask for more than 25 tweets in a page", async () => {
         await expect(
           when.a_user_calls_getMyTimeline(user, 26)
@@ -76,10 +68,10 @@ describe("Given an authenticated user", () => {
 
       it("Should see Tweet.liked as true", async () => {
         const { tweets } = await when.a_user_calls_getMyTimeline(user, 25);
+        const lastTweet = tweets[0];
 
-        expect(tweets).toHaveLength(1);
-        expect(tweets[0].id).toEqual(tweet.id);
-        expect(tweets[0].liked).toEqual(true);
+        expect(lastTweet.id).toEqual(tweet.id);
+        expect(lastTweet.liked).toEqual(true);
       });
 
       it("Should not be able to like the same tweet a second time", async () => {
@@ -98,10 +90,10 @@ describe("Given an authenticated user", () => {
 
       it("Should see Tweet.liked as false", async () => {
         const { tweets } = await when.a_user_calls_getMyTimeline(user, 25);
+        const lastTweet = tweets[0];
 
-        expect(tweets).toHaveLength(1);
-        expect(tweets[0].id).toEqual(tweet.id);
-        expect(tweets[0].liked).toEqual(false);
+        expect(lastTweet.id).toEqual(tweet.id);
+        expect(lastTweet.liked).toEqual(false);
       });
 
       it("Should not be able to unlike the same tweet a second time", async () => {

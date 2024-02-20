@@ -5,6 +5,20 @@ const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
 const process = require("process");
 
+const a_specific_test_user = () => {
+  const firstname = "Tony";
+  const lastname = "Williams";
+  const name = `${firstname} ${lastname}`;
+  const password = chance.string({ length: 8 });
+  const email = `${firstname}.${lastname}@meineder.com`;
+
+  return {
+    name: name,
+    password: password,
+    email: email,
+  };
+};
+
 const a_random_user = () => {
   const firstname = chance.first({ nationality: "en" });
   const lastname = chance.last({ nationality: "en" });
@@ -70,6 +84,27 @@ function an_appsync_js_context_json(
 }
 
 const an_authenticated_user = async () => {
+  const { name, email, password } = a_specific_test_user();
+  const { clientId, username } = await cognitoUtil.getOrSignupUser(
+    name,
+    email,
+    password
+  );
+  const { accessToken, idToken } = await cognitoUtil.signInUser(
+    clientId,
+    username,
+    password
+  );
+
+  return {
+    name,
+    username,
+    accessToken,
+    idToken,
+  };
+};
+
+const a_new_and_authenticated_user = async () => {
   const { name, email, password } = a_random_user();
   const { clientId, username } = await cognitoUtil.signupAndConfirmUser(
     name,
@@ -93,7 +128,7 @@ const an_authenticated_user = async () => {
 };
 
 const an_inactive_user_with_tweets = async () => {
-  const user = await an_authenticated_user();
+  const user = await a_new_and_authenticated_user();
 
   await tweet(user, chance.string({ length: 16 }));
   await tweet(user, chance.string({ length: 32 }));
@@ -150,6 +185,7 @@ module.exports = {
   a_random_user,
   an_appsync_velocity_context,
   an_appsync_js_context_json,
+  a_new_and_authenticated_user,
   an_authenticated_user,
   an_inactive_user_with_tweets,
 };
