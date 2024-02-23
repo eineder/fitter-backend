@@ -93,6 +93,7 @@ dataSources:
       iamRoleStatements:
         - Effect: Allow
           Action:
+            - dynamodb:DeleteItem
             - dynamodb:PutItem
           Resource: !GetAtt LikesTable.Arn
         - Effect: Allow

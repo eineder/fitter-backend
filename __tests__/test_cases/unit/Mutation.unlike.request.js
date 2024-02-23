@@ -36,7 +36,6 @@ describe("Mutation.unlike", () => {
           attributeValues: {},
           condition: {
             expression: "attribute_exists(userId)",
-            returnValuesOnConditionCheckFailure: true,
           },
         },
         {
@@ -55,7 +54,6 @@ describe("Mutation.unlike", () => {
           },
           condition: {
             expression: "attribute_exists(id)",
-            returnValuesOnConditionCheckFailure: true,
           },
         },
         {
@@ -74,7 +72,6 @@ describe("Mutation.unlike", () => {
           },
           condition: {
             expression: "attribute_exists(id)",
-            returnValuesOnConditionCheckFailure: true,
           },
         },
       ],
