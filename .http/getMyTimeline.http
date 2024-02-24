@@ -12,10 +12,14 @@ query getMyTimeline($limit: Int!) {
     getMyTimeline(limit: $limit) {
       nextToken
       tweets {
+        ... on Tweet {
         id
         createdAt
+        text
+        liked
       }
     }
+  }
 }
 
 {
