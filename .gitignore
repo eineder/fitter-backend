@@ -13,3 +13,4 @@ serverless.manifest.json
 
 
 playground/database.js
+.http/.env.dev
