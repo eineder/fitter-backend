@@ -1,0 +1,18 @@
+POST https://cognito-idp.eu-west-1.amazonaws.com/
+Content-Type: application/x-amz-json-1.1
+X-Amz-Target: AWSCognitoIdentityProviderService.SignUp
+{
+  "ClientId": "{{WEB_COGNITO_USER_POOL_CLIENT_ID}}",
+  "Username": "{{test-user-name}}",
+  "Password": "{{test-user-password}}",
+  "UserAttributes": [
+    {
+      "Name": "email",
+      "Value": "{{test-user-name}}"
+    },
+    {
+      "Name": "name",
+      "Value": "{{test-user-name}}"
+    }
+  ]
+}

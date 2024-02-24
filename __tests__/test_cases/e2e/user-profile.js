@@ -10,7 +10,7 @@ const process = require("process");
 describe("Given an authenticated user", () => {
   let user, profile;
   beforeAll(async () => {
-    user = await given.an_authenticated_user();
+    user = await given.a_new_and_authenticated_user();
   });
 
   it("The user can fetch his profile with getMyProfile", async () => {

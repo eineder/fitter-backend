@@ -19,21 +19,17 @@ resolvers:
   Query.getTweets:
     dataSource: tweetsTable
     kind: UNIT
-    request: "mapping-templates/Query.getTweets.request.vtl"
-    response: "mapping-templates/Query.getTweets.response.vtl"
+    code: "resolvers/getTweets.js"
 
   Query.getMyTimeline:
     dataSource: timelinesTable
     kind: UNIT
-    request: "mapping-templates/Query.getMyTimeline.request.vtl"
-    response: "mapping-templates/Query.getMyTimeline.response.vtl"
+    code: "resolvers/getMyTimeline.js"
 
   Mutation.editMyProfile:
     dataSource: usersTable
     kind: UNIT
     code: "resolvers/editMyProfile.js"
-    # request: 'mapping-templates/Mutation.editMyProfile.request.vtl'
-    # response: 'mapping-templates/Mutation.editMyProfile.response.vtl'
 
   Mutation.tweet:
     dataSource: tweetFunction
@@ -53,8 +49,7 @@ resolvers:
   Tweet.profile:
     dataSource: usersTable
     kind: UNIT
-    request: "mapping-templates/Tweet.profile.request.vtl"
-    response: "mapping-templates/Tweet.profile.response.vtl"
+    code: "resolvers/Tweet.profile.js"
 
   Tweet.liked:
     dataSource: likesTable
@@ -64,8 +59,7 @@ resolvers:
   TimelinePage.tweets:
     dataSource: tweetsTable
     kind: UNIT
-    request: "mapping-templates/TimelinePage.tweets.request.vtl"
-    response: "mapping-templates/TimelinePage.tweets.response.vtl"
+    code: "resolvers/TimelinePage.tweets.js"
 
 dataSources:
   none:
@@ -98,6 +92,7 @@ dataSources:
       iamRoleStatements:
         - Effect: Allow
           Action:
+            - dynamodb:DeleteItem
             - dynamodb:PutItem
           Resource: !GetAtt LikesTable.Arn
         - Effect: Allow

@@ -1,0 +1,9 @@
+@code = {{$input Please enter the confirmation code!}}
+POST https://cognito-idp.eu-west-1.amazonaws.com/
+Content-Type: application/x-amz-json-1.1
+X-Amz-Target: AWSCognitoIdentityProviderService.ConfirmSignUp
+{
+  "ClientId": "{{WEB_COGNITO_USER_POOL_CLIENT_ID}}",
+  "Username": "{{test-user-name}}",
+  "ConfirmationCode": "{{code}}"
+}

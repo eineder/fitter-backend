@@ -10,10 +10,8 @@ export function request(ctx) {
         table: "#LikesTable#",
         operation: "DeleteItem",
         key: util.dynamodb.toMapValues({ userId: username, tweetId }),
-        attributeValues: {},
         condition: {
           expression: "attribute_exists(userId)",
-          returnValuesOnConditionCheckFailure: true,
         },
       },
       {
@@ -28,7 +26,6 @@ export function request(ctx) {
         },
         condition: {
           expression: "attribute_exists(id)",
-          returnValuesOnConditionCheckFailure: true,
         },
       },
       {
@@ -43,7 +40,6 @@ export function request(ctx) {
         },
         condition: {
           expression: "attribute_exists(id)",
-          returnValuesOnConditionCheckFailure: true,
         },
       },
     ],
@@ -54,6 +50,10 @@ export function request(ctx) {
 
 export const response = (ctx) => {
   if (ctx.result?.cancellationReasons) {
+    console.log(
+      "Unlike resolver response cancelled.",
+      ctx.result.cancellationReasons
+    );
     util.error("DynamoDB transaction error");
   }
 

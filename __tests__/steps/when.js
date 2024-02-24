@@ -344,7 +344,7 @@ const a_user_calls_like = async (user, tweetId) => {
 
 const a_user_calls_unlike = async (user, tweetId) => {
   const unlikeMutation = `mutation unlikeMutation($tweetId: ID!) {
-    like(tweetId: $tweetId)
+    unlike(tweetId: $tweetId)
   }`;
 
   const variables = {
@@ -364,7 +364,11 @@ const a_user_calls_unlike = async (user, tweetId) => {
   return result;
 };
 
-const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
+const we_evaluate_resolver_function = async (
+  resolverPath,
+  contextJson,
+  func = "request"
+) => {
   const client = new AppSync({
     region: "eu-west-1",
   });
@@ -375,11 +379,11 @@ const we_evaluate_resolver_function = async (resolverPath, contextJson) => {
     code,
     context: contextJson,
     runtime,
-    function: "request",
+    function: func,
   });
 
   if (response.error) {
-    throw new Error(response.error.message);
+    throw response.error;
   }
 
   return JSON.parse(response.evaluationResult);

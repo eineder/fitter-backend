@@ -15,5 +15,7 @@ export function response(ctx) {
     util.error(`Tweet.liked was executed with error: ${JSON.stringify(ctx)}`);
   }
 
-  return ctx.result !== null;
+  if (ctx.result) return true;
+
+  return false;
 }

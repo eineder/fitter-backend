@@ -1,0 +1,27 @@
+# @import ./login.http
+
+# @forceRef login
+@accessToken = {{login.AuthenticationResult.AccessToken}}
+
+POST {{API_URL}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-REQUEST-TYPE: GraphQL
+
+query getMyTimeline($limit: Int!) {
+    getMyTimeline(limit: $limit) {
+      nextToken
+      tweets {
+        ... on Tweet {
+        id
+        createdAt
+        text
+        liked
+      }
+    }
+  }
+}
+
+{
+  "limit": 10
+}
