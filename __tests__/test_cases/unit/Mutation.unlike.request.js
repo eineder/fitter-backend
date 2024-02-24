@@ -33,7 +33,6 @@ describe("Mutation.unlike", () => {
             userId: { S: username },
             tweetId: { S: tweetId },
           },
-          attributeValues: {},
           condition: {
             expression: "attribute_exists(userId)",
           },
