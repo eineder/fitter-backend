@@ -49,8 +49,7 @@ resolvers:
   Tweet.profile:
     dataSource: usersTable
     kind: UNIT
-    request: "mapping-templates/Tweet.profile.request.vtl"
-    response: "mapping-templates/Tweet.profile.response.vtl"
+    code: "resolvers/Tweet.profile.js"
 
   Tweet.liked:
     dataSource: likesTable

@@ -4,19 +4,23 @@ const given = require("../../steps/given");
 const when = require("../../steps/when");
 
 describe("Tweet.profile.response template", () => {
-  it("Should set the __typename to 'MyProfile' for current user", () => {
-    const templatePath = path.resolve(
+  it("Should set the __typename to 'MyProfile' for current user", async () => {
+    const resolverPath = path.resolve(
       // eslint-disable-next-line no-undef
       __dirname,
-      "../../../mapping-templates/Tweet.profile.response.vtl"
+      "../../../resolvers/Tweet.profile.js"
     );
     const username = chance.guid();
-    const context = given.an_appsync_velocity_context(
-      { username },
+    const context = given.an_appsync_js_context_json(
+      username,
       {},
       { id: username }
     );
-    const result = when.we_invoke_an_appsync_template(templatePath, context);
+    const result = await when.we_evaluate_resolver_function(
+      resolverPath,
+      context,
+      "response"
+    );
 
     expect(result).toEqual({
       id: username,
@@ -24,20 +28,24 @@ describe("Tweet.profile.response template", () => {
     });
   });
 
-  it("Should set the __typename to 'OtherProfile' for other users", () => {
-    const templatePath = path.resolve(
+  it("Should set the __typename to 'OtherProfile' for other users", async () => {
+    const resolverPath = path.resolve(
       // eslint-disable-next-line no-undef
       __dirname,
-      "../../../mapping-templates/Tweet.profile.response.vtl"
+      "../../../resolvers/Tweet.profile.js"
     );
     const username = chance.guid();
     const otherId = chance.guid();
-    const context = given.an_appsync_velocity_context(
-      { username },
+    const context = given.an_appsync_js_context_json(
+      username,
       {},
       { id: otherId }
     );
-    const result = when.we_invoke_an_appsync_template(templatePath, context);
+    const result = await when.we_evaluate_resolver_function(
+      resolverPath,
+      context,
+      "response"
+    );
 
     expect(result).toEqual({
       id: otherId,
