@@ -1,5 +1,4 @@
 const chance = require("chance").Chance();
-const velocityUtil = require("amplify-appsync-simulator/lib/velocity/util");
 const cognitoUtil = require("../lib/cognitoUtil");
 const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
@@ -34,25 +33,6 @@ const a_random_user = () => {
     name: name,
     password: password,
     email: email,
-  };
-};
-
-const an_appsync_velocity_context = (identity, args, result, source) => {
-  const util = velocityUtil.create([], new Date(), Object());
-
-  const context = {
-    identity,
-    args,
-    arguments: args,
-    result,
-    source,
-  };
-
-  return {
-    context,
-    ctx: context,
-    util,
-    utils: util,
   };
 };
 
@@ -183,7 +163,6 @@ async function tweet(user, text) {
 
 module.exports = {
   a_random_user,
-  an_appsync_velocity_context,
   an_appsync_js_context_json,
   a_new_and_authenticated_user,
   an_authenticated_user,

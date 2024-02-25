@@ -1,7 +1,5 @@
 require("dotenv").config();
 const fs = require("fs");
-const velocityMapper = require("amplify-appsync-simulator/lib/velocity/value-mapper/mapper");
-const velocityTemplate = require("amplify-velocity-template");
 const cognitoUtil = require("../lib/cognitoUtil");
 const { GraphQL, registerFragment } = require("../lib/graphql");
 const { AppSync } = require("@aws-sdk/client-appsync");
@@ -126,17 +124,6 @@ const a_user_signs_up = async (password, name, email) => {
     name,
     email,
   };
-};
-
-const we_invoke_an_appsync_template = (templatePath, context) => {
-  const template = fs.readFileSync(templatePath, { encoding: "utf-8" });
-  const ast = velocityTemplate.parse(template);
-  const compiler = new velocityTemplate.Compile(ast, {
-    valueMapper: velocityMapper.map,
-    escape: false,
-  });
-
-  return JSON.parse(compiler.render(context));
 };
 
 const a_user_calls_getMyProfile = async (user) => {
@@ -398,7 +385,6 @@ const we_invoke_deleteInactiveUsers = async () => {
 module.exports = {
   we_invoke_confirmUserSignup,
   a_user_signs_up,
-  we_invoke_an_appsync_template,
   a_user_calls_getMyProfile,
   a_user_calls_editMyProfle,
   we_invoke_getImageUploadUrl,
