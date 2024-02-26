@@ -1,0 +1,28 @@
+# @import ./getUser.http
+
+# @forceRef getUser
+@username = {{getUser.Username}}
+
+POST {{API_URL}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-REQUEST-TYPE: GraphQL
+
+query getLikes($userId: ID!, $limit: Int!) {
+    getLikes(userId: $userId, limit: $limit) {
+      nextToken
+      tweets {
+        ... on Tweet {
+        id
+        createdAt
+        text
+        liked
+      }
+    }
+  }
+}
+
+{
+  "limit": 10,
+  "userId": "{{username}}"
+}

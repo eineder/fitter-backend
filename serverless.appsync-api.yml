@@ -26,6 +26,11 @@ resolvers:
     kind: UNIT
     code: "resolvers/getMyTimeline.js"
 
+  Query.getLikes:
+    dataSource: likesTable
+    kind: UNIT
+    code: "resolvers/getLikes.js"
+
   Mutation.editMyProfile:
     dataSource: usersTable
     kind: UNIT
@@ -56,10 +61,10 @@ resolvers:
     kind: UNIT
     code: "resolvers/Tweet.liked.js"
 
-  TimelinePage.tweets:
+  UnhydratedTweetsPage.tweets:
     dataSource: tweetsTable
     kind: UNIT
-    code: "resolvers/TimelinePage.tweets.js"
+    code: "resolvers/UnhydratedTweetsPage.tweets.js"
 
 dataSources:
   none:
