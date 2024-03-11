@@ -5,9 +5,11 @@ const {
   AdminGetUserCommand,
   UserNotFoundException,
 } = require("@aws-sdk/client-cognito-identity-provider");
+const { createDocument } = require("../../lib/dynamo");
 const process = require("process");
+const { UpdateCommand } = require("@aws-sdk/lib-dynamodb");
 
-const getOrSignupUser = async (name, email, newRandomPassword) => {
+const getOrSignupUser = async (name, email, newRandomPassword, isPermanent) => {
   const cognito = new CognitoIdentityProvider();
   const userPoolId = process.env.COGNITO_USER_POOL_ID;
   const clientId = process.env.WEB_COGNITO_USER_POOL_CLIENT_ID;
@@ -27,7 +29,12 @@ const getOrSignupUser = async (name, email, newRandomPassword) => {
     return { clientId, username: getUserResponse.Username };
   } catch (e) {
     if (e instanceof UserNotFoundException) {
-      const user = await signupAndConfirmUser(name, email, newRandomPassword);
+      const user = await signupAndConfirmUser(
+        name,
+        email,
+        newRandomPassword,
+        isPermanent
+      );
 
       return { clientId, username: user.username };
     } else {
@@ -36,7 +43,7 @@ const getOrSignupUser = async (name, email, newRandomPassword) => {
   }
 };
 
-const signupAndConfirmUser = async (name, email, password) => {
+const signupAndConfirmUser = async (name, email, password, isPermanent) => {
   const cognito = new CognitoIdentityProvider();
   const userPoolId = process.env.COGNITO_USER_POOL_ID;
   const clientId = process.env.WEB_COGNITO_USER_POOL_CLIENT_ID;
@@ -57,6 +64,21 @@ const signupAndConfirmUser = async (name, email, password) => {
     Username: username,
     UserPoolId: userPoolId,
   });
+
+  if (isPermanent) {
+    const document = createDocument();
+    const { USERS_TABLE } = process.env;
+    await document.send(
+      new UpdateCommand({
+        TableName: USERS_TABLE,
+        Key: { id: username },
+        UpdateExpression: "set isPermanent = :permanent",
+        ExpressionAttributeValues: {
+          ":permanent": true,
+        },
+      })
+    );
+  }
 
   console.log(`Confirmed sign up for user ${username}`);
   return { clientId, username };

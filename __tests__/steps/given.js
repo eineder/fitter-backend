@@ -5,8 +5,8 @@ const { DynamoDBDocument, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
 const process = require("process");
 
 const a_specific_test_user = () => {
-  const firstname = "Tony";
-  const lastname = "Williams";
+  const firstname = "Acceptance";
+  const lastname = "Test-User";
   const name = `${firstname} ${lastname}`;
   const password = chance.string({ length: 8 });
   const email = `${firstname}.${lastname}@meineder.com`;
@@ -68,7 +68,8 @@ const an_authenticated_user = async () => {
   const { clientId, username } = await cognitoUtil.getOrSignupUser(
     name,
     email,
-    password
+    password,
+    true
   );
   const { accessToken, idToken } = await cognitoUtil.signInUser(
     clientId,
