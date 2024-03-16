@@ -3,12 +3,12 @@ const when = require("../../steps/when");
 const chance = require("chance").Chance();
 const path = require("path");
 
-describe("TimelinePage.tweets", () => {
+describe("UnhydratedTweetsPage.tweets", () => {
   it("Should return empty array if source.tweets is empty", async () => {
     const resolverPath = path.resolve(
       // eslint-disable-next-line no-undef
       __dirname,
-      "../../../resolvers/TimelinePage.tweets.js"
+      "../../../resolvers/UnhydratedTweetsPage.tweets.js"
     );
 
     const username = chance.guid();
@@ -30,7 +30,7 @@ describe("TimelinePage.tweets", () => {
     const resolverPath = path.resolve(
       // eslint-disable-next-line no-undef
       __dirname,
-      "../../../resolvers/TimelinePage.tweets.js"
+      "../../../resolvers/UnhydratedTweetsPage.tweets.js"
     );
 
     const username = chance.guid();
