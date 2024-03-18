@@ -81,6 +81,27 @@ describe("Given an authenticated user", () => {
           message: expect.stringContaining("DynamoDB transaction error"),
         });
       });
+
+      it("Should see the tweet when he calls getLikes", async () => {
+        const { tweets, nextToken } = await when.a_user_calls_getLikes(
+          user,
+          user.username,
+          25
+        );
+        const latestTweet = tweets.filter((t) => t.id === tweet.id)[0];
+
+        expect(nextToken).toBeNull();
+        expect(tweets.length).toBeGreaterThan(0);
+        expect(latestTweet).toMatchObject({
+          ...tweet,
+          liked: true,
+          likes: 1,
+          profile: {
+            ...tweet.profile,
+            likesCounts: tweet.profile.likesCounts + 1,
+          },
+        });
+      });
     });
 
     describe("When he unlikes the tweet", () => {
@@ -102,6 +123,19 @@ describe("Given an authenticated user", () => {
         ).rejects.toMatchObject({
           message: expect.stringContaining("DynamoDB transaction error"),
         });
+      });
+
+      it("Should no longer see the tweet when he calls getLikes", async () => {
+        const { tweets, nextToken } = await when.a_user_calls_getLikes(
+          user,
+          user.username,
+          25
+        );
+
+        expect(nextToken).toBeNull();
+
+        const count = tweets.filter((t) => t.id === tweet.id).length;
+        expect(count).toEqual(0);
       });
     });
   });
