@@ -66,6 +66,16 @@ resolvers:
     kind: UNIT
     code: "resolvers/UnhydratedTweetsPage.tweets.js"
 
+  MyProfile.tweets:
+    dataSource: tweetsTable
+    kind: UNIT
+    code: "resolvers/MyProfile.tweets.js"
+
+  OtherProfile.tweets:
+    dataSource: tweetsTable
+    kind: UNIT
+    code: "resolvers/MyProfile.tweets.js"
+
 dataSources:
   none:
     type: NONE

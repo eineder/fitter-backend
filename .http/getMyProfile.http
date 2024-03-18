@@ -1,0 +1,41 @@
+# @import ./login.http
+
+# @forceRef login
+@accessToken = {{login.AuthenticationResult.AccessToken}}
+
+POST {{API_URL}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-REQUEST-TYPE: GraphQL
+
+query getMyProfile {
+  getMyProfile {
+    id
+    name
+    screenName
+    imageUrl
+    backgroundImageUrl
+    bio
+    location
+    website
+    birthdate
+    createdAt
+    followersCount
+    followingCount
+    tweetsCount
+    likesCounts
+    tweets {
+      nextToken
+      tweets {
+        ... on Tweet {
+        id
+        text
+        }
+      }
+    }
+  }
+}
+
+{
+  "limit": 10
+}

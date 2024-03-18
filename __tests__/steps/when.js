@@ -130,6 +130,13 @@ const a_user_calls_getMyProfile = async (user) => {
   const getMyProfile = `query getMyProfile {
     getMyProfile {
       ... myProfileFields
+
+      tweets {
+        nextToken
+        tweets {
+        ... iTweetFields
+        }
+      }
     }
   }`;
   const data = await GraphQL(
@@ -147,10 +154,17 @@ const a_user_calls_getMyProfile = async (user) => {
 
 const a_user_calls_editMyProfle = async (user, input) => {
   const mutation = `mutation editMyProfile($input: ProfileInput!) {
-  editMyProfile(newProfile: $input) {
-    ... myProfileFields 
+    editMyProfile(newProfile: $input) {
+      ... myProfileFields 
+
+      tweets {
+        nextToken
+        tweets {
+        ... iTweetFields
+        }
+      }
     }
-}`;
+  }`;
   const variables = {
     input,
   };

@@ -28,6 +28,10 @@ describe("Given an authenticated user", () => {
       followingCount: 0,
       tweetsCount: 0,
       likesCounts: 0,
+      tweets: {
+        nextToken: null,
+        tweets: [],
+      },
     });
 
     const [firstname, lastname] = user.name.split(" ");
