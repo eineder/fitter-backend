@@ -40,6 +40,10 @@ resolvers:
     dataSource: tweetFunction
     kind: UNIT
 
+  Mutation.retweet:
+    dataSource: retweetFunction
+    kind: UNIT
+
   Mutation.like:
     dataSource: likesSource
     kind: UNIT
@@ -128,6 +132,11 @@ dataSources:
     type: AWS_LAMBDA
     config:
       functionName: tweet
+
+  retweetFunction:
+    type: AWS_LAMBDA
+    config:
+      functionName: retweet
 
 substitutions:
   TweetsTable: !Ref TweetsTable
