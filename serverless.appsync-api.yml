@@ -44,6 +44,10 @@ resolvers:
     dataSource: retweetFunction
     kind: UNIT
 
+  Mutation.unretweet:
+    dataSource: unretweetFunction
+    kind: UNIT
+
   Mutation.like:
     dataSource: likesSource
     kind: UNIT
@@ -147,6 +151,11 @@ dataSources:
     type: AWS_LAMBDA
     config:
       functionName: retweet
+
+  unretweetFunction:
+    type: AWS_LAMBDA
+    config:
+      functionName: unretweet
 
 substitutions:
   TweetsTable: !Ref TweetsTable
