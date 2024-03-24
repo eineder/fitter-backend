@@ -60,6 +60,16 @@ resolvers:
     kind: UNIT
     code: "resolvers/Tweet.profile.js"
 
+  Retweet.profile:
+    dataSource: usersTable
+    kind: UNIT
+    code: "resolvers/Retweet.profile.js"
+
+  Retweet.retweetOf:
+    dataSource: tweetsTable
+    kind: UNIT
+    code: "resolvers/Retweet.retweetOf.js"
+
   Tweet.liked:
     dataSource: likesTable
     kind: UNIT

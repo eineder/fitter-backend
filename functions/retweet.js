@@ -31,7 +31,7 @@ const tweet = async (event) => {
     id,
     creator: username,
     createdAt: timestamp,
-    replyOf: tweetId,
+    retweetOf: tweetId,
   };
 
   const transactItems = [
