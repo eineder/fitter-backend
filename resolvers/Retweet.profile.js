@@ -8,8 +8,6 @@ export function request(ctx) {
 }
 
 export function response(ctx) {
-  console.log("Retweet.profile.js/response called");
-  console.log("ctx.result", ctx.result);
   if (ctx.result) {
     if (ctx.result.id === ctx.identity.username) {
       ctx.result["__typename"] = "MyProfile";
