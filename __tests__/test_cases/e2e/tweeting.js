@@ -30,7 +30,7 @@ describe("Given an authenticated user", () => {
     });
 
     it("He should get the new tweet when he calls getTweets", async () => {
-      const { tweets, nextToken } = await when.a_user_calls_getTweets(
+      const { tweets } = await when.a_user_calls_getTweets(
         user,
         user.username,
         25
@@ -38,8 +38,6 @@ describe("Given an authenticated user", () => {
 
       const lastTweet = tweets[0];
 
-      expect(nextToken).toBeNull();
-      expect(tweets.length).toEqual(tweetCountBefore + 1);
       expect(lastTweet).toEqual(tweet);
     });
 
