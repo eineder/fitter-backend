@@ -1,8 +1,8 @@
-import { util } from "@aws-appsync/utils";
+import { util, runtime } from "@aws-appsync/utils";
 
 export function request(ctx) {
   // fetch tweet IDs into an array:
-  if (ctx.source.tweets.length === 0) return [];
+  if (ctx.source.tweets.length === 0) runtime.earlyReturn([]);
 
   const tweets = [];
   for (let item of ctx.source.tweets) {
