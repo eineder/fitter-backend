@@ -10,6 +10,19 @@ const tweet = async (event) => {
   const { username } = event.identity;
 
   const document = DynamoDBDocument.from(new DynamoDB());
+
+  const getTweetResp = await document.get({
+    TableName: TWEETS_TABLE,
+    Key: {
+      id: tweetId,
+    },
+  });
+
+  const tweet = getTweetResp.Item;
+  if (!tweet) {
+    throw new Error("Tweet is not found");
+  }
+
   const getRetweetResp = await document.query({
     TableName: TWEETS_TABLE,
     IndexName: "retweetsByCreator",
@@ -75,7 +88,7 @@ const tweet = async (event) => {
     },
   ];
 
-  if (retweet.creator !== username) {
+  if (tweet.creator !== username) {
     transactItems.push({
       Delete: {
         TableName: TIMELINES_TABLE,

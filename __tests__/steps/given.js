@@ -4,9 +4,7 @@ const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
 const process = require("process");
 
-const a_specific_test_user = () => {
-  const firstname = "Acceptance";
-  const lastname = "Test-User";
+const a_specific_test_user = (firstname, lastname) => {
   const name = `${firstname} ${lastname}`;
   const password = chance.string({ length: 8 });
   const email = `${firstname}.${lastname}@meineder.com`;
@@ -64,7 +62,35 @@ function an_appsync_js_context_json(
 }
 
 const an_authenticated_user = async () => {
-  const { name, email, password } = a_specific_test_user();
+  const { name, email, password } = a_specific_test_user(
+    "Acceptance",
+    "Test-User"
+  );
+  const { clientId, username } = await cognitoUtil.getOrSignupUser(
+    name,
+    email,
+    password,
+    true
+  );
+  const { accessToken, idToken } = await cognitoUtil.signInUser(
+    clientId,
+    username,
+    password
+  );
+
+  return {
+    name,
+    username,
+    accessToken,
+    idToken,
+  };
+};
+
+const a_second_authenticated_user = async () => {
+  const { name, email, password } = a_specific_test_user(
+    "Acceptance",
+    "Test-User-2"
+  );
   const { clientId, username } = await cognitoUtil.getOrSignupUser(
     name,
     email,
@@ -167,5 +193,6 @@ module.exports = {
   an_appsync_js_context_json,
   a_new_and_authenticated_user,
   an_authenticated_user,
+  a_second_authenticated_user,
   an_inactive_user_with_tweets,
 };

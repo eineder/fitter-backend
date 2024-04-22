@@ -216,6 +216,38 @@ const we_invoke_tweet = async (username, text) => {
   return await handler(event, context);
 };
 
+const we_invoke_retweet = async (username, tweetId) => {
+  const handler = require("../../functions/retweet").handler;
+
+  const context = {};
+  const event = {
+    identity: {
+      username,
+    },
+    arguments: {
+      tweetId,
+    },
+  };
+
+  return await handler(event, context);
+};
+
+const we_invoke_unretweet = async (username, tweetId) => {
+  const handler = require("../../functions/unretweet").handler;
+
+  const context = {};
+  const event = {
+    identity: {
+      username,
+    },
+    arguments: {
+      tweetId,
+    },
+  };
+
+  return await handler(event, context);
+};
+
 const a_user_calls_getImageUploadUrl = async (user, extension, contentType) => {
   const query = `query getImageUploadUrl($extension: String, $contentType: String) {
     getImageUploadUrl(extension: $extension, contentType: $contentType)
@@ -432,7 +464,9 @@ module.exports = {
   we_invoke_getImageUploadUrl,
   a_user_calls_getImageUploadUrl,
   we_invoke_tweet,
+  we_invoke_retweet,
   a_user_calls_tweet,
+  we_invoke_unretweet,
   a_user_calls_getTweets,
   a_user_calls_getMyTimeline,
   a_user_calls_like,
