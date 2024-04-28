@@ -5,6 +5,7 @@ const http = require("axios").default;
 const fs = require("fs");
 const { checkUserExists } = require("./../lib/cognitoUtil");
 const process = require("process");
+const _ = require("lodash");
 
 const user_exists_in_UsersTable = async (id) => {
   console.log(
