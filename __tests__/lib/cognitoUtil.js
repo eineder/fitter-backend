@@ -98,6 +98,7 @@ const signInUser = async (clientId, username, password) => {
     });
   } catch (e) {
     console.log("Error signing in user", { clientId, username, password });
+    console.trace();
     throw e;
   }
 
