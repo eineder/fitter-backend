@@ -56,9 +56,7 @@ const signupAndConfirmUser = async (name, email, password, isPermanent) => {
   });
 
   const username = signUpResponse.UserSub;
-  console.log(
-    `User ${email} has signed - username: '${username}', password: '${password}'`
-  );
+  console.log("User has signed in:", { username, email, password, clientId });
 
   // Usually, a new user has to confirm his sign up by receiving a mail with confirmation link
   // Here we confirm programmatically
@@ -88,15 +86,20 @@ const signupAndConfirmUser = async (name, email, password, isPermanent) => {
 
 const signInUser = async (clientId, username, password) => {
   const cognito = new CognitoIdentityProvider();
-  console.log("Initiating auth.", { username, password, clientId });
-  const authToken = await cognito.initiateAuth({
-    ClientId: clientId,
-    AuthFlow: "USER_PASSWORD_AUTH",
-    AuthParameters: {
-      USERNAME: username,
-      PASSWORD: password,
-    },
-  });
+  let authToken;
+  try {
+    authToken = await cognito.initiateAuth({
+      ClientId: clientId,
+      AuthFlow: "USER_PASSWORD_AUTH",
+      AuthParameters: {
+        USERNAME: username,
+        PASSWORD: password,
+      },
+    });
+  } catch (e) {
+    console.log("Error signing in user", { clientId, username, password });
+    throw e;
+  }
 
   console.log(`[${username}] - signed in`);
 

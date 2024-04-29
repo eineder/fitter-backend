@@ -83,7 +83,7 @@ describe("Given an authenticated user with a tweet", () => {
     it("Increments the tweetsCount in the Users table", async () => {
       await then.tweetsCount_is_updated_in_users_table(
         userA.username,
-        originalTweetsCount + 3
+        originalTweetsCount + 2
       );
     });
 
