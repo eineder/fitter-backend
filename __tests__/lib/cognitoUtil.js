@@ -56,7 +56,9 @@ const signupAndConfirmUser = async (name, email, password, isPermanent) => {
   });
 
   const username = signUpResponse.UserSub;
-  console.log(`User ${email} has signed up and has username ${username}`);
+  console.log(
+    `User ${email} has signed - username: '${username}', password: '${password}'`
+  );
 
   // Usually, a new user has to confirm his sign up by receiving a mail with confirmation link
   // Here we confirm programmatically
