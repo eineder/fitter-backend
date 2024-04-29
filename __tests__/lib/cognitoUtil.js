@@ -88,9 +88,7 @@ const signupAndConfirmUser = async (name, email, password, isPermanent) => {
 
 const signInUser = async (clientId, username, password) => {
   const cognito = new CognitoIdentityProvider();
-  console.log(
-    `Initiating auth. Username: '${username}', Password: '${password}', ClientId: '${clientId}'`
-  );
+  console.log("Initiating auth.", { username, password, clientId });
   const authToken = await cognito.initiateAuth({
     ClientId: clientId,
     AuthFlow: "USER_PASSWORD_AUTH",
