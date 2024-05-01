@@ -6,12 +6,10 @@ const process = require("process");
 
 const a_specific_test_user = (firstname, lastname) => {
   const name = `${firstname} ${lastname}`;
-  const password = chance.string({ length: 8 });
   const email = `${firstname}.${lastname}@meineder.com`;
 
   return {
     name: name,
-    password: password,
     email: email,
   };
 };
@@ -62,10 +60,8 @@ function an_appsync_js_context_json(
 }
 
 const an_authenticated_user = async () => {
-  const { name, email, password } = a_specific_test_user(
-    "Acceptance",
-    "Test-User"
-  );
+  const { name, email } = a_specific_test_user("Acceptance", "Test-User");
+  const password = process.env.TEST_USER_1_PASSWORD;
   const { clientId, username } = await cognitoUtil.getOrSignupUser(
     name,
     email,
@@ -87,10 +83,8 @@ const an_authenticated_user = async () => {
 };
 
 const a_second_authenticated_user = async () => {
-  const { name, email, password } = a_specific_test_user(
-    "Acceptance",
-    "Test-User-2"
-  );
+  const { name, email } = a_specific_test_user("Acceptance", "Test-User-2");
+  const password = process.env.TEST_USER_2_PASSWORD;
   const { clientId, username } = await cognitoUtil.getOrSignupUser(
     name,
     email,

@@ -9,9 +9,9 @@
     "sls": "sls",
     "exportEnv": "sls export-env --overwrite --all && sls manifest",
     "tu": "jest --verbose ./__tests__/test_cases/unit",
-    "ti": "jest --verbose --runInBand ./__tests__/test_cases/integration",
-    "te": "jest --verbose --runInBand ./__tests__/test_cases/e2e",
-    "ta": "jest --verbose --runInBand ./__tests__/test_cases"
+    "ti": "jest --verbose ./__tests__/test_cases/integration",
+    "te": "jest --verbose ./__tests__/test_cases/e2e",
+    "ta": "jest --verbose ./__tests__/test_cases"
   },
   "author": "",
   "license": "ISC",

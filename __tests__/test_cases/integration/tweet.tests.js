@@ -2,7 +2,6 @@ const given = require("../../steps/given");
 const when = require("../../steps/when");
 const then = require("../../steps/then");
 const chance = require("chance").Chance();
-const process = require("process");
 
 describe("Given an authenticated user", () => {
   let user;
@@ -27,10 +26,6 @@ describe("Given an authenticated user", () => {
 
     it("Updates the tweets count in the Users table to 1", async () => {
       await then.tweetsCount_is_updated_in_users_table(user.username, 1);
-    });
-
-    it("Can read the env variable", async () => {
-      expect(process.env.MY_ENV).toEqual("Nice!");
     });
   });
 });

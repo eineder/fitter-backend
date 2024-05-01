@@ -9,7 +9,7 @@ const { createDocument } = require("../../lib/dynamo");
 const process = require("process");
 const { UpdateCommand } = require("@aws-sdk/lib-dynamodb");
 
-const getOrSignupUser = async (name, email, newRandomPassword, isPermanent) => {
+const getOrSignupUser = async (name, email, password, isPermanent) => {
   const cognito = new CognitoIdentityProvider();
   const userPoolId = process.env.COGNITO_USER_POOL_ID;
   const clientId = process.env.WEB_COGNITO_USER_POOL_CLIENT_ID;
@@ -19,12 +19,6 @@ const getOrSignupUser = async (name, email, newRandomPassword, isPermanent) => {
       Username: email,
       UserPoolId: userPoolId,
     });
-    await cognito.adminSetUserPassword({
-      Username: email,
-      Password: newRandomPassword,
-      UserPoolId: userPoolId,
-      Permanent: true,
-    });
 
     return { clientId, username: getUserResponse.Username };
   } catch (e) {
@@ -32,7 +26,7 @@ const getOrSignupUser = async (name, email, newRandomPassword, isPermanent) => {
       const user = await signupAndConfirmUser(
         name,
         email,
-        newRandomPassword,
+        password,
         isPermanent
       );
 
