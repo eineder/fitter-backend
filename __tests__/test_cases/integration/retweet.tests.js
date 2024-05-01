@@ -5,19 +5,21 @@ const chance = require("chance").Chance();
 const dynamoUtil = require("../../lib/dynamoUtil");
 
 describe("Given an authenticated user with a tweet", () => {
-  let userA, tweet, originalTweetsCount, originalTimelineLength;
+  let userA, tweet;
   const text = chance.string({ length: 16 });
   beforeAll(async () => {
     userA = await given.an_authenticated_user();
-    originalTweetsCount = (await dynamoUtil.getUser(userA.username)).Item
-      .tweetsCount;
-    originalTimelineLength = (await dynamoUtil.getTimeline(userA.username))
-      .Items.length;
+
     tweet = await when.we_invoke_tweet(userA.username, text);
   });
 
   describe("When he retweets his own tweet", () => {
+    let originalTweetsCount, originalTimelineLength;
     beforeAll(async () => {
+      originalTweetsCount = (await dynamoUtil.getUser(userA.username)).Item
+        .tweetsCount;
+      originalTimelineLength = (await dynamoUtil.getTimeline(userA.username))
+        .Items.length;
       await when.we_invoke_retweet(userA.username, tweet.id);
     });
 
@@ -38,14 +40,14 @@ describe("Given an authenticated user with a tweet", () => {
     it("Increments the tweetsCount in the Users table", async () => {
       await then.tweetsCount_is_updated_in_users_table(
         userA.username,
-        originalTweetsCount + 2
+        originalTweetsCount + 1
       );
     });
 
     it("Doesn't save the retweet in the Timelines tables", async () => {
       const tweets = await then.there_are_N_tweets_in_TimelinesTable(
         userA.username,
-        originalTimelineLength + 1
+        originalTimelineLength
       );
 
       expect(tweets[0].tweetId).toEqual(tweet.id);
@@ -53,9 +55,13 @@ describe("Given an authenticated user with a tweet", () => {
   });
 
   describe("When he retweets another user's tweet", () => {
-    let userB, anotherTweet;
+    let userB, anotherTweet, originalTweetsCount, originalTimelineLength;
     const text = chance.string({ length: 16 });
     beforeAll(async () => {
+      originalTweetsCount = (await dynamoUtil.getUser(userA.username)).Item
+        .tweetsCount;
+      originalTimelineLength = (await dynamoUtil.getTimeline(userA.username))
+        .Items.length;
       userB = await given.a_second_authenticated_user();
       anotherTweet = await when.we_invoke_tweet(userB.username, text);
       await when.we_invoke_retweet(userA.username, anotherTweet.id);
@@ -83,14 +89,14 @@ describe("Given an authenticated user with a tweet", () => {
     it("Increments the tweetsCount in the Users table", async () => {
       await then.tweetsCount_is_updated_in_users_table(
         userA.username,
-        originalTweetsCount + 2
+        originalTweetsCount + 1
       );
     });
 
     it("Saves the retweet in the Timelines tables", async () => {
       const tweets = await then.there_are_N_tweets_in_TimelinesTable(
         userA.username,
-        originalTimelineLength + 2
+        originalTimelineLength + 1
       );
 
       const tweetTimelineEntry = tweets.find((t) => t.tweetId === tweet.id);
