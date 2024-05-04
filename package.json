@@ -9,7 +9,7 @@
     "sls": "sls",
     "exportEnv": "sls export-env --overwrite --all && sls manifest",
     "tu": "jest --verbose ./__tests__/test_cases/unit",
-    "ti": "jest --verbose ./__tests__/test_cases/integration",
+    "ti": "jest --verbose --runInBand ./__tests__/test_cases/integration",
     "te": "jest --verbose ./__tests__/test_cases/e2e",
     "ta": "jest --verbose ./__tests__/test_cases"
   },
