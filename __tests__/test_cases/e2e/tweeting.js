@@ -11,11 +11,8 @@ describe("Given an authenticated user", () => {
 
   describe("When he sends a tweet", () => {
     let tweet;
-    let tweetCountBefore;
     const text = chance.string({ length: 16 });
     beforeAll(async () => {
-      tweetCountBefore = (await when.a_user_calls_getMyTimeline(user, 25))
-        .tweets.length;
       tweet = await when.a_user_calls_tweet(user, text);
     });
 
