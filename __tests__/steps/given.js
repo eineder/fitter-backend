@@ -1,7 +1,12 @@
 const chance = require("chance").Chance();
 const cognitoUtil = require("../lib/cognitoUtil");
-const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+const { DynamoDB, DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocument, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
+const {
+  acquireLock,
+  LockTableNotFoundError,
+  createLocksTable,
+} = require("dynamodb-lock");
 const process = require("process");
 
 const a_specific_test_user = (firstname, lastname) => {
@@ -74,11 +79,24 @@ const an_authenticated_user = async () => {
     password
   );
 
+  const client = new DynamoDBClient();
+  let lock;
+  try {
+    lock = await acquireLock(client, username);
+  } catch (error) {
+    if (error instanceof LockTableNotFoundError) {
+      console.log("Lock table not found, trying to create it.");
+      await createLocksTable(client);
+      console.log("Lock table created.");
+      lock = await acquireLock(client, username);
+    }
+  }
   return {
     name,
     username,
     accessToken,
     idToken,
+    lock,
   };
 };
 
@@ -97,11 +115,25 @@ const a_second_authenticated_user = async () => {
     password
   );
 
+  const client = new DynamoDBClient();
+  let lock;
+  try {
+    lock = await acquireLock(client, username);
+  } catch (error) {
+    if (error instanceof LockTableNotFoundError) {
+      console.log("Lock table not found, trying to create it.");
+      await createLocksTable(client);
+      console.log("Lock table created.");
+      lock = await acquireLock(client, username);
+    }
+  }
+
   return {
     name,
     username,
     accessToken,
     idToken,
+    lock,
   };
 };
 

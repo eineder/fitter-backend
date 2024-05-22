@@ -9,8 +9,11 @@ describe("Given an authenticated user with a tweet", () => {
   const text = chance.string({ length: 16 });
   beforeAll(async () => {
     userA = await given.an_authenticated_user();
-
     tweet = await when.we_invoke_tweet(userA.username, text);
+  });
+
+  afterAll(async () => {
+    await userA.lock.release();
   });
 
   describe("When he retweets his own tweet", () => {
@@ -65,6 +68,9 @@ describe("Given an authenticated user with a tweet", () => {
       userB = await given.a_second_authenticated_user();
       anotherTweet = await when.we_invoke_tweet(userB.username, text);
       await when.we_invoke_retweet(userA.username, anotherTweet.id);
+    });
+    afterAll(async () => {
+      await userB.lock.release();
     });
 
     it("Saves the retweet in the Tweets table", async () => {

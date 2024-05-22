@@ -8,6 +8,9 @@ describe("Given an authenticated user", () => {
   beforeAll(async () => {
     user = await given.an_authenticated_user();
   });
+  afterAll(async () => {
+    await user.lock.release();
+  });
 
   describe("When he sends a tweet", () => {
     let tweet;

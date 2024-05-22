@@ -18,6 +18,11 @@ describe("Given an authenticated user retweeted another user's tweet", () => {
     await when.we_invoke_retweet(userA.username, tweet.id);
   });
 
+  afterAll(async () => {
+    await userA.lock.release();
+    await userB.lock.release();
+  });
+
   describe("When user A unretweets user B's tweet", () => {
     beforeAll(async () => {
       await when.we_invoke_unretweet(userA.username, tweet.id);
