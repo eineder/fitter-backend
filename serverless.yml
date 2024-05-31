@@ -180,6 +180,26 @@ functions:
           description: "Delete inactive users"
           rate: rate(1 day)
 
+  onTweetsTableNewImage:
+    handler: functions/on-tweets-table-new-image.handler
+    iamRoleStatements:
+      - Effect: Allow
+        Action: events:PutEvents
+        Resource: "*"
+      - Effect: Allow
+        Action:
+          - dynamodb:DescribeStream
+          - dynamodb:GetRecords
+          - dynamodb:GetShardIterator
+          - dynamodb:ListStreams
+        Resource: !GetAtt TweetsTable.Arn
+    events:
+      - stream:
+          type: dynamodb
+          arn: !GetAtt TweetsTable.StreamArn
+          batchSize: 1
+          startingPosition: LATEST
+
 resources:
   Resources:
     UsersTable:
@@ -229,6 +249,8 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
         Tags:
           - Key: Environment
             Value: ${self:custom.stage}
