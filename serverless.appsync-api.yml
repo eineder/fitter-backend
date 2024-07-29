@@ -1,4 +1,4 @@
-name: appsyncmasterclass
+name: fitter
 schema: schema.api.graphql
 authentication:
   type: AMAZON_COGNITO_USER_POOLS

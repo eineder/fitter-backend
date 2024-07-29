@@ -1,4 +1,4 @@
-service: appsyncmasterclass-backend
+service: fitter-backend
 frameworkVersion: "3"
 
 plugins:
