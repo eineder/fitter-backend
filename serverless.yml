@@ -182,6 +182,8 @@ functions:
 
   onTweetsTableNewImage:
     handler: functions/on-tweets-table-new-image.handler
+    environment:
+      TWEETS_TABLE: !Ref TweetsTable
     iamRoleStatements:
       - Effect: Allow
         Action: events:PutEvents

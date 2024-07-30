@@ -1,4 +1,5 @@
 const { unmarshall } = require("@aws-sdk/util-dynamodb");
+const process = require("process");
 const {
   EventBridgeClient,
   PutEventsCommand,
@@ -21,13 +22,21 @@ module.exports.handler = async (event) => {
       `Only INSERT events are supported, received ${record.eventName}`
     );
 
-  const tweet = unmarshall(record.dynamodb.NewImage);
+  const fullTweet = unmarshall(record.dynamodb.NewImage);
+  const detail = {
+    tweet: {
+      id: fullTweet.id,
+      text: fullTweet.text,
+    },
+    tweetsTableName: process.env.TWEETS_TABLE,
+  };
+  console.log("Detail:", JSON.stringify(detail, null, 2));
   const cmd = new PutEventsCommand({
     Entries: [
       {
         Source: "tweets.service",
         DetailType: "new_tweet_posted",
-        Detail: JSON.stringify(tweet, 0, 2),
+        Detail: JSON.stringify(detail, 0, 2),
         EventBusName: "default",
       },
     ],
