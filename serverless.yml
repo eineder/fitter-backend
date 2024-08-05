@@ -184,6 +184,7 @@ functions:
     handler: functions/on-tweets-table-new-image.handler
     environment:
       TWEETS_TABLE: !Ref TweetsTable
+      STAGE: ${self:custom.stage}
     iamRoleStatements:
       - Effect: Allow
         Action: events:PutEvents
