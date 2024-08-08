@@ -66,7 +66,7 @@ function an_appsync_js_context_json(
 
 const an_authenticated_user = async () => {
   const { name, email } = a_specific_test_user("Acceptance", "Test-User");
-  const password = process.env.TEST_USER_1_PASSWORD;
+  const password = "test-user-1";
   const { clientId, username } = await cognitoUtil.getOrSignupUser(
     name,
     email,
@@ -102,7 +102,7 @@ const an_authenticated_user = async () => {
 
 const a_second_authenticated_user = async () => {
   const { name, email } = a_specific_test_user("Acceptance", "Test-User-2");
-  const password = process.env.TEST_USER_2_PASSWORD;
+  const password = "test-user-2";
   const { clientId, username } = await cognitoUtil.getOrSignupUser(
     name,
     email,

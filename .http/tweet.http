@@ -10,7 +10,7 @@ Authorization: Bearer {{accessToken}}
 X-REQUEST-TYPE: GraphQL
 
 mutation Tweet {
-  tweet(text: "Hello from httpyac!") {
+  tweet(text: "Hello from httpyac, du Hirsch !") {
     id
   }
 }

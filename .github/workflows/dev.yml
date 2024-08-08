@@ -39,9 +39,6 @@ jobs:
           npm run tu
 
       - name: integration tests
-        env:
-          TEST_USER_1_PASSWORD: ${{ secrets.TEST_USER_1_PASSWORD }}
-          TEST_USER_2_PASSWORD: ${{ secrets.TEST_USER_2_PASSWORD }}
         run: |
           CREDS=`aws sts assume-role --role-arn arn:aws:iam::${{ secrets.DEV_ACCOUNT_ID }}:role/ci-role --role-session-name=ci_user`
           export AWS_ACCESS_KEY_ID=`echo $CREDS | jq -r '.Credentials.AccessKeyId'`
@@ -62,9 +59,6 @@ jobs:
           npm run sls -- deploy
 
       - name: e2e tests
-        env:
-          TEST_USER_1_PASSWORD: ${{ secrets.TEST_USER_1_PASSWORD }}
-          TEST_USER_2_PASSWORD: ${{ secrets.TEST_USER_2_PASSWORD }}
         run: |
           CREDS=`aws sts assume-role --role-arn arn:aws:iam::${{ secrets.DEV_ACCOUNT_ID }}:role/ci-role --role-session-name=ci_user`
           export AWS_ACCESS_KEY_ID=`echo $CREDS | jq -r '.Credentials.AccessKeyId'`
