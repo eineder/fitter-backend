@@ -1,0 +1,22 @@
+# @import ./tweet.http
+
+# @forceRef tweet
+@accessToken = {{login.AuthenticationResult.AccessToken}}
+@tweetId = {{tweet.data.tweet.id}}
+
+POST {{API_URL}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+X-REQUEST-TYPE: GraphQL
+
+mutation reply($tweetId: ID!, $text: String!) {
+  reply(tweetId: $tweetId, text: $text) {
+    id
+  }
+}
+
+
+{
+  "tweetId": "{{tweetId}}",
+  "text": "So ein Schmarrn!"
+}

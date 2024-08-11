@@ -3,6 +3,8 @@ const { TweetType } = require("../lib/constants");
 const process = require("process");
 const { getTweetById } = require("../lib/tweets");
 const { uniq } = require("lodash");
+const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 
 const { USERS_TABLE, TWEETS_TABLE, TIMELINES_TABLE } = process.env;
 
@@ -12,12 +14,12 @@ const tweet = async (event) => {
   const id = ulid.ulid();
   const timestamp = new Date().toJSON();
 
-  const tweet = getTweetById(tweetId);
+  const tweet = await getTweetById(tweetId);
   if (!tweet) {
     throw new Error(`Tweet with ID '${tweet}' not found`);
   }
 
-  const inReplyToUserIds = getUserIdsToReplyTo(tweet);
+  const inReplyToUserIds = await getUserIdsToReplyTo(tweet);
 
   const reply = {
     __typename: TweetType.REPLY,
@@ -45,7 +47,7 @@ const tweet = async (event) => {
         Key: {
           id: tweetId,
         },
-        UpdateExpression: "ADD repllies :one",
+        UpdateExpression: "ADD replies :one",
         ExpressionAttributeValues: {
           ":one": 1,
         },
@@ -79,11 +81,13 @@ const tweet = async (event) => {
     },
   ];
 
+  const document = DynamoDBDocument.from(new DynamoDB());
+
   await document.transactWrite({
     TransactItems: transactItems,
   });
 
-  return true;
+  return reply;
 };
 
 async function getUserIdsToReplyTo(tweet) {
