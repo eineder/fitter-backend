@@ -95,7 +95,7 @@ async function getUserIdsToReplyTo(tweet) {
 
   if (tweet.__typename === TweetType.RETWEET) {
     const retweetOf = await getTweetById(tweet.retweetOf);
-    userIds = userIds.concat(getUserIdsToReplyTo(retweetOf));
+    userIds = userIds.concat(await getUserIdsToReplyTo(retweetOf));
   } else if (tweet.__typename === TweetType.REPLY) {
     userIds = userIds.concat(tweet.inReplyToUserIds);
   }

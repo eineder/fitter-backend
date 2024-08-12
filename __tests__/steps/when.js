@@ -155,7 +155,7 @@ const a_user_calls_getMyProfile = async (user) => {
 const a_user_calls_editMyProfle = async (user, input) => {
   const mutation = `mutation editMyProfile($input: ProfileInput!) {
     editMyProfile(newProfile: $input) {
-      ... myProfileFields 
+      ... myProfileFields
 
       tweets {
         nextToken
@@ -242,6 +242,23 @@ const we_invoke_unretweet = async (username, tweetId) => {
     },
     arguments: {
       tweetId,
+    },
+  };
+
+  return await handler(event, context);
+};
+
+const we_invoke_reply = async (username, tweetId, text) => {
+  const handler = require("../../functions/reply").handler;
+
+  const context = {};
+  const event = {
+    identity: {
+      username,
+    },
+    arguments: {
+      tweetId,
+      text,
     },
   };
 
@@ -467,6 +484,7 @@ module.exports = {
   we_invoke_retweet,
   a_user_calls_tweet,
   we_invoke_unretweet,
+  we_invoke_reply,
   a_user_calls_getTweets,
   a_user_calls_getMyTimeline,
   a_user_calls_like,

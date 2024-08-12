@@ -62,6 +62,28 @@ const tweet_exists_in_tweets_table = async (id) => {
   return (await resp).Item;
 };
 
+const reply_exists_in_TweetsTable = async (userId, tweetId) => {
+  console.log(
+    `looking for reply by [${userId}] to [${tweetId}] in table [${process.env.TWEETS_TABLE}]`
+  );
+  const resp = await document.query({
+    TableName: process.env.TWEETS_TABLE,
+    IndexName: "repliesForTweet",
+    KeyConditionExpression: "inReplyToTweetId = :tweetId",
+    ExpressionAttributeValues: {
+      ":userId": userId,
+      ":tweetId": tweetId,
+    },
+    FilterExpression: "creator = :userId",
+  });
+
+  const reply = _.get(resp, "Items.0");
+
+  expect(reply).toBeTruthy();
+
+  return reply;
+};
+
 const retweet_exists_in_TweetsTable = async (userId, tweetId) => {
   console.log(
     `looking for retweet of [${tweetId}] in table [${process.env.TWEETS_TABLE}]`
@@ -273,6 +295,7 @@ module.exports = {
   user_and_data_are_gone,
   user_can_upload_image_to_url,
   user_can_download_from,
+  reply_exists_in_TweetsTable,
   retweet_exists_in_TweetsTable,
   retweet_does_not_exist_in_tweets_table,
   retweet_exists_in_RetweetsTable,
