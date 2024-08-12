@@ -25,7 +25,7 @@ describe("Given an authenticated user", () => {
     });
 
     it("Updates the tweets count in the Users table to 1", async () => {
-      await then.tweetsCount_is_updated_in_users_table(user.username, 1);
+      await then.tweetsCount_is_updated_in_UsersTable(user.username, 1);
     });
   });
 });

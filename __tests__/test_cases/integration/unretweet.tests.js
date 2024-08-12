@@ -49,7 +49,7 @@ describe("Given an authenticated user retweeted another user's tweet", () => {
     });
 
     it("Decrements the tweetsCount in the Users table", async () => {
-      await then.tweetsCount_is_updated_in_users_table(
+      await then.tweetsCount_is_updated_in_UsersTable(
         userA.username,
         originalTweetsCount
       );

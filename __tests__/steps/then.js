@@ -195,7 +195,7 @@ const there_are_N_tweets_in_TimelinesTable = async (userId, n) => {
   return resp.Items;
 };
 
-const tweetsCount_is_updated_in_users_table = async (userId, count) => {
+const tweetsCount_is_updated_in_UsersTable = async (userId, count) => {
   console.log(
     `Looking for user ${userId} in table [${process.env.USERS_TABLE}].`
   );
@@ -303,5 +303,5 @@ module.exports = {
   tweet_exists_in_TweetsTable,
   tweet_exists_in_TimelinesTable,
   there_are_N_tweets_in_TimelinesTable,
-  tweetsCount_is_updated_in_users_table,
+  tweetsCount_is_updated_in_UsersTable,
 };
