@@ -21,7 +21,7 @@ describe("Given an authenticated user", () => {
     });
 
     it("Saves the tweet in the Timelines table", async () => {
-      await then.tweet_exists_in_timelines_table(user.username, tweet.id);
+      await then.tweet_exists_in_TimelinesTable(user.username, tweet.id);
     });
 
     it("Updates the tweets count in the Users table to 1", async () => {

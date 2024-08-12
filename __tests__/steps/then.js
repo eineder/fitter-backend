@@ -160,7 +160,7 @@ const retweet_does_not_exist_in_RetweetsTable = async (userId, tweetId) => {
   return resp.Item;
 };
 
-const tweet_exists_in_timelines_table = async (userId, tweetId) => {
+const tweet_exists_in_TimelinesTable = async (userId, tweetId) => {
   console.log(
     `Looking for tweet with id ${tweetId} for user ${userId} in table [${process.env.TIMELINES_TABLE}].`
   );
@@ -301,7 +301,7 @@ module.exports = {
   retweet_exists_in_RetweetsTable,
   retweet_does_not_exist_in_RetweetsTable,
   tweet_exists_in_TweetsTable,
-  tweet_exists_in_timelines_table,
+  tweet_exists_in_TimelinesTable,
   there_are_N_tweets_in_TimelinesTable,
   tweetsCount_is_updated_in_users_table,
 };
