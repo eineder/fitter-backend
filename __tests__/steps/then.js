@@ -46,7 +46,7 @@ const user_is_marked_as_last_seen_recently = async (id) => {
   return resp.Item;
 };
 
-const tweet_exists_in_tweets_table = async (id) => {
+const tweet_exists_in_TweetsTable = async (id) => {
   console.log(
     `Looking for tweet with id ${id} in table [${process.env.TWEETS_TABLE}].`
   );
@@ -106,7 +106,7 @@ const retweet_exists_in_TweetsTable = async (userId, tweetId) => {
   return retweet;
 };
 
-const retweet_does_not_exist_in_tweets_table = async (userId, tweetId) => {
+const retweet_does_not_exist_in_TweetsTable = async (userId, tweetId) => {
   console.log(
     `looking for retweet of [${tweetId}] in table [${process.env.TWEETS_TABLE}]`
   );
@@ -297,10 +297,10 @@ module.exports = {
   user_can_download_from,
   reply_exists_in_TweetsTable,
   retweet_exists_in_TweetsTable,
-  retweet_does_not_exist_in_tweets_table,
+  retweet_does_not_exist_in_TweetsTable,
   retweet_exists_in_RetweetsTable,
   retweet_does_not_exist_in_RetweetsTable,
-  tweet_exists_in_tweets_table,
+  tweet_exists_in_TweetsTable,
   tweet_exists_in_timelines_table,
   there_are_N_tweets_in_TimelinesTable,
   tweetsCount_is_updated_in_users_table,

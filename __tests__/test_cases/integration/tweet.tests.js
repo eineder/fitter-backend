@@ -17,7 +17,7 @@ describe("Given an authenticated user", () => {
     });
 
     it("Saves the tweet in the Tweets table", async () => {
-      await then.tweet_exists_in_tweets_table(tweet.id);
+      await then.tweet_exists_in_TweetsTable(tweet.id);
     });
 
     it("Saves the tweet in the Timelines table", async () => {

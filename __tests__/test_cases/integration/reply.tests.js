@@ -51,7 +51,7 @@ describe("Given two authenticated users, use A and user B", () => {
       });
 
       it("Increments the replies count in the Tweets table", async () => {
-        const { replies } = await then.tweet_exists_in_tweets_table(tweet.id);
+        const { replies } = await then.tweet_exists_in_TweetsTable(tweet.id);
 
         expect(replies).toEqual(1);
       });

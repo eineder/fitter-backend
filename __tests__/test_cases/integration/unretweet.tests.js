@@ -29,7 +29,7 @@ describe("Given an authenticated user retweeted another user's tweet", () => {
     });
 
     it("Removes the retweet from the Tweets table", async () => {
-      await then.retweet_does_not_exist_in_tweets_table(
+      await then.retweet_does_not_exist_in_TweetsTable(
         userA.username,
         tweet.id
       );
@@ -43,7 +43,7 @@ describe("Given an authenticated user retweeted another user's tweet", () => {
     });
 
     it("Decrements the retweets count in the Tweets table", async () => {
-      const { retweets } = await then.tweet_exists_in_tweets_table(tweet.id);
+      const { retweets } = await then.tweet_exists_in_TweetsTable(tweet.id);
 
       expect(retweets).toEqual(0);
     });

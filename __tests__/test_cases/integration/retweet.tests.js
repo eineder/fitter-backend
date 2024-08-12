@@ -35,7 +35,7 @@ describe("Given an authenticated user with a tweet", () => {
     });
 
     it("Increments the retweets count in the Tweets table", async () => {
-      const { retweets } = await then.tweet_exists_in_tweets_table(tweet.id);
+      const { retweets } = await then.tweet_exists_in_TweetsTable(tweet.id);
 
       expect(retweets).toEqual(1);
     });
@@ -85,7 +85,7 @@ describe("Given an authenticated user with a tweet", () => {
     });
 
     it("Increments the retweets count in the Tweets table", async () => {
-      const { retweets } = await then.tweet_exists_in_tweets_table(
+      const { retweets } = await then.tweet_exists_in_TweetsTable(
         anotherTweet.id
       );
 
